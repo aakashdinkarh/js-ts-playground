@@ -17,3 +17,19 @@ export const LANGUAGES = {
 } as const;
 
 export type Language = typeof LANGUAGES[keyof typeof LANGUAGES];
+
+export const CONSOLE_METHODS = {
+  LOG: 'log',
+  ERROR: 'error',
+  WARN: 'warn',
+  INFO: 'info',
+  DEBUG: 'debug',
+} as const;
+
+export const CONSOLE_METHOD_LIST = [
+  CONSOLE_METHODS.LOG,
+  CONSOLE_METHODS.ERROR,
+  CONSOLE_METHODS.WARN,
+  CONSOLE_METHODS.INFO,
+  CONSOLE_METHODS.DEBUG,
+] as const;

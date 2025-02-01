@@ -1,23 +1,19 @@
 import React from 'react';
 import EditorBase from '@components/EditorBase';
 import { transpileTypeScript } from '@utils/typescript-transpiler';
+import { overrideConsoleMethods } from '@utils/console-overrides';
 
 const TypeScriptEditor: React.FC = () => {
   const handleCodeExecution = (code: string, setOutput: (value: React.SetStateAction<any[]>) => void) => {
-    const originalLog = console.log;
+    const restoreConsole = overrideConsoleMethods(setOutput);
     try {
-      console.log = (...args) => {
-        setOutput(prev => [...prev, ...args]);
-        originalLog(...args);
-      };
-      
       const jsCode = transpileTypeScript(code);
       const func = new Function('console', jsCode);
       func(console);
     } catch (error) {
-      setOutput(prev => [...prev, `Error: ${error instanceof Error ? error.message : 'Unknown error'}`]);
+      setOutput(prev => [...prev, { type: 'error', value: [`Error: ${error instanceof Error ? error.message : 'Unknown error'}`] }]);
     } finally {
-      console.log = originalLog;
+      restoreConsole();
     }
   };
 

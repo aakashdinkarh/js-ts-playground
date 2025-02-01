@@ -1,19 +1,16 @@
 import React from 'react';
 import EditorBase from '@components/EditorBase';
+import { overrideConsoleMethods } from '@utils/console-overrides';
 
 const JavaScriptEditor: React.FC = () => {
-  const handleCodeExecution = (code: string, setOutput: (value: React.SetStateAction<string[]>) => void) => {
-    const originalLog = console.log;
+  const handleCodeExecution = (code: string, setOutput: (value: React.SetStateAction<any[]>) => void) => {
+    const restoreConsole = overrideConsoleMethods(setOutput);
     try {
-      console.log = (...args) => {
-        setOutput(prev => [...prev, args.join(' ')]);
-        originalLog(...args);
-      };
       eval(code);
     } catch (error) {
-      setOutput(prev => [...prev, `Error: ${error instanceof Error ? error.message : 'Unknown error'}`]);
+      setOutput(prev => [...prev, { type: 'error', value: [`Error: ${error instanceof Error ? error.message : 'Unknown error'}`] }]);
     } finally {
-      console.log = originalLog;
+      restoreConsole();
     }
   };
 

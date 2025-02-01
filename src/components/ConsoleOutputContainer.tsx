@@ -1,17 +1,18 @@
 import React from 'react';
 import ConsoleOutput from '@common/ConsoleOutput';
+import { ConsoleMessage } from 'types/console';
 
 interface ConsoleOutputContainerProps {
-  output: any[];
+  output: ConsoleMessage[];
 }
 
 const ConsoleOutputContainer: React.FC<ConsoleOutputContainerProps> = ({ output }) => {
   return (
     <div className="output-container">
       <div id="output">
-        {output.map((value, index) => (
+        {output.map((message, index) => (
           <div key={index} className="console-line">
-            <ConsoleOutput value={value} />
+            <ConsoleOutput value={message.value} type={message.type} />
           </div>
         ))}
       </div>
