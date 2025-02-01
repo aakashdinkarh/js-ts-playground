@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '@common/Button';
+import { Button } from '@common/Button';
 
 interface EditorControlsProps {
   onRun: () => void;
@@ -8,7 +8,7 @@ interface EditorControlsProps {
   setAutoRun: (value: boolean) => void;
 }
 
-const EditorControls: React.FC<EditorControlsProps> = ({
+export const EditorControls: React.FC<EditorControlsProps> = ({
   onRun,
   onClear,
   autoRun,
@@ -32,6 +32,4 @@ const EditorControls: React.FC<EditorControlsProps> = ({
       </label>
     </div>
   );
-};
-
-export default EditorControls; 
+}; 

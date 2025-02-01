@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import Tab from '@common/Tab';
-import JavaScriptEditor from '@components/JavaScriptEditor';
-import TypeScriptEditor from '@components/TypeScriptEditor';
+import { Tab } from '@components/common/Tab';
+import { JavaScriptEditor } from '@components/JavaScriptEditor';
+import { TypeScriptEditor } from '@components/TypeScriptEditor';
 import { APP_CONSTANTS, STORAGE_KEYS, LANGUAGES, Language } from '@constants/index';
 import '@styles/components.css';
 import '@styles/app.css';
 
 const DEFAULT_LANGUAGE: Language = LANGUAGES.TYPESCRIPT;
 
-function App() {
+export const App = () => {
   const [language, setLanguage] = useState<Language>(() => {
     return (localStorage.getItem(STORAGE_KEYS.SELECTED_LANGUAGE) as Language) || DEFAULT_LANGUAGE;
   });
@@ -46,5 +46,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

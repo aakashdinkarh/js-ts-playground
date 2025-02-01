@@ -1,8 +1,8 @@
 import React from 'react';
-import EditorBase from '@components/EditorBase';
+import { EditorBase } from '@components/EditorBase';
 import { overrideConsoleMethods } from '@utils/console-overrides';
 
-const JavaScriptEditor: React.FC = () => {
+export const JavaScriptEditor: React.FC = () => {
   const handleCodeExecution = (code: string, setOutput: (value: React.SetStateAction<any[]>) => void) => {
     const restoreConsole = overrideConsoleMethods(setOutput);
     try {
@@ -16,5 +16,3 @@ const JavaScriptEditor: React.FC = () => {
 
   return <EditorBase language="javascript" handleCodeExecution={handleCodeExecution} />;
 };
-
-export default JavaScriptEditor; 

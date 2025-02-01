@@ -6,7 +6,7 @@ interface TabProps {
   onClick: () => void;
 }
 
-const Tab: React.FC<TabProps> = ({ label, isActive, onClick }) => {
+export const Tab: React.FC<TabProps> = ({ label, isActive, onClick }) => {
   return (
     <button
       className={`tab-btn ${isActive ? 'active' : ''}`}
@@ -16,5 +16,3 @@ const Tab: React.FC<TabProps> = ({ label, isActive, onClick }) => {
     </button>
   );
 };
-
-export default Tab; 

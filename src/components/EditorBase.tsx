@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import Editor from '@monaco-editor/react';
-import EditorControls from './EditorControls';
-import ConsoleOutputContainer from './ConsoleOutputContainer';
+import { EditorControls } from '@components/EditorControls';
+import { ConsoleOutputContainer } from '@components/ConsoleOutputContainer';
 import { APP_CONSTANTS, STORAGE_KEYS } from '@constants/index';
 import '@styles/components.css';
 import { useDebounce } from '@hooks/useDebounce';
@@ -11,7 +11,7 @@ interface EditorBaseProps {
   handleCodeExecution: (code: string, setOutput: React.Dispatch<React.SetStateAction<string[]>>) => void;
 }
 
-const EditorBase: React.FC<EditorBaseProps> = ({ language, handleCodeExecution }) => {
+export const EditorBase: React.FC<EditorBaseProps> = ({ language, handleCodeExecution }) => {
   const [output, setOutput] = useState<any[]>([]);
   const [autoRun, setAutoRun] = useState<boolean>(() => {
     return localStorage.getItem(STORAGE_KEYS.AUTO_RUN) !== 'false';
@@ -95,5 +95,3 @@ const EditorBase: React.FC<EditorBaseProps> = ({ language, handleCodeExecution }
     </>
   );
 };
-
-export default EditorBase; 

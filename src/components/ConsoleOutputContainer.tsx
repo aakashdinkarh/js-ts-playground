@@ -1,12 +1,12 @@
 import React from 'react';
-import ConsoleOutput from '@common/ConsoleOutput';
+import { ConsoleOutput } from '@components/common/ConsoleOutput';
 import { ConsoleMessage } from 'types/console';
 
 interface ConsoleOutputContainerProps {
   output: ConsoleMessage[];
 }
 
-const ConsoleOutputContainer: React.FC<ConsoleOutputContainerProps> = ({ output }) => {
+export const ConsoleOutputContainer: React.FC<ConsoleOutputContainerProps> = ({ output }) => {
   return (
     <div className="output-container">
       <div id="output">
@@ -19,5 +19,3 @@ const ConsoleOutputContainer: React.FC<ConsoleOutputContainerProps> = ({ output 
     </div>
   );
 };
-
-export default ConsoleOutputContainer; 

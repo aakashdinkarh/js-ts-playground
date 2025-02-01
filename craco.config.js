@@ -11,4 +11,11 @@ module.exports = {
       '@hooks': path.resolve(__dirname, 'src/hooks')
     },
   },
+  eslint: {
+    configure: {
+      rules: {
+        'import/no-default-export': 'error'
+      }
+    }
+  }
 }; 

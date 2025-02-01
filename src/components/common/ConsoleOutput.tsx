@@ -6,7 +6,7 @@ interface ConsoleOutputProps {
   type?: 'log' | 'error' | 'warn' | 'info' | 'debug';
 }
 
-const ConsoleOutput: React.FC<ConsoleOutputProps> = ({ 
+export const ConsoleOutput: React.FC<ConsoleOutputProps> = ({ 
   value, 
   depth = 0, 
   type = 'log' 
@@ -59,5 +59,3 @@ const ConsoleOutput: React.FC<ConsoleOutputProps> = ({
 
   return <span className={getTypeClass()}>{String(value)}</span>;
 };
-
-export default ConsoleOutput; 

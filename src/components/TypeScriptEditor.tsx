@@ -1,9 +1,9 @@
 import React from 'react';
-import EditorBase from '@components/EditorBase';
+import { EditorBase } from '@components/EditorBase';
 import { transpileTypeScript } from '@utils/typescript-transpiler';
 import { overrideConsoleMethods } from '@utils/console-overrides';
 
-const TypeScriptEditor: React.FC = () => {
+export const TypeScriptEditor: React.FC = () => {
   const handleCodeExecution = (code: string, setOutput: (value: React.SetStateAction<any[]>) => void) => {
     const restoreConsole = overrideConsoleMethods(setOutput);
     try {
@@ -19,5 +19,3 @@ const TypeScriptEditor: React.FC = () => {
 
   return <EditorBase language="typescript" handleCodeExecution={handleCodeExecution} />;
 };
-
-export default TypeScriptEditor; 
