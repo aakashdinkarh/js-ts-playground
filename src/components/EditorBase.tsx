@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import Editor from '@monaco-editor/react';
-import Button from '@common/Button';
-import ConsoleOutput from '@common/ConsoleOutput';
+import EditorControls from './EditorControls';
+import ConsoleOutputContainer from './ConsoleOutputContainer';
 import { APP_CONSTANTS, STORAGE_KEYS } from '@constants/index';
 import '@styles/components.css';
 
@@ -45,8 +45,6 @@ const EditorBase: React.FC<EditorBaseProps> = ({ language, handleCodeExecution }
     return () => clearTimeout(timer);
   }, [lastEdit, handleRunCode, autoRun]);
 
-  const handleClear = () => setOutput([]);
-
   return (
     <>
       <div className="editor-container">
@@ -70,37 +68,13 @@ const EditorBase: React.FC<EditorBaseProps> = ({ language, handleCodeExecution }
           }}
         />
       </div>
-      <div className="controls">
-        <Button 
-          variant="primary"
-          onClick={() => handleRunCode((window as any).editor)}
-        >
-          Run Code
-        </Button>
-        <Button 
-          variant="danger"
-          onClick={handleClear}
-        >
-          Clear Console
-        </Button>
-        <label className="auto-run-toggle">
-          <input
-            type="checkbox"
-            checked={autoRun}
-            onChange={(e) => setAutoRun(e.target.checked)}
-          />
-          Auto-run
-        </label>
-      </div>
-      <div className="output-container">
-        <div id="output">
-          {output.map((value, index) => (
-            <div key={index} className="console-line">
-              <ConsoleOutput value={value} />
-            </div>
-          ))}
-        </div>
-      </div>
+      <EditorControls
+        onRun={() => handleRunCode((window as any).editor)}
+        onClear={() => setOutput([])}
+        autoRun={autoRun}
+        setAutoRun={setAutoRun}
+      />
+      <ConsoleOutputContainer output={output} />
     </>
   );
 };
