@@ -1,0 +1,144 @@
+.container {
+  padding: 20px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+}
+
+.tab-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+}
+
+.tab-btn.active {
+  background-color: #007acc;
+  color: white;
+}
+
+.editor-container {
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.run-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.clear-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.output-container {
+  height: 200px;
+  background-color: #1e1e1e;
+  color: white;
+  padding: 10px;
+  border-radius: 4px;
+  font-family: monospace;
+  overflow-y: auto;
+}
+
+.auto-run-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+}
+
+.auto-run-toggle input {
+  cursor: pointer;
+}
+
+.console-item {
+  font-family: monospace;
+  cursor: pointer;
+}
+
+.expandable {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.copy-btn {
+  background: none;
+  border: none;
+  padding: 2px 4px;
+  cursor: pointer;
+  opacity: 0.7;
+  font-size: 12px;
+}
+
+.copy-btn:hover {
+  opacity: 1;
+}
+
+.object-content {
+  padding-left: 20px;
+}
+
+.object-property {
+  line-height: 1.5;
+}
+
+.property-key {
+  color: #9cdcfe;
+}
+
+.property-value {
+  color: #ce9178;
+}
+
+.console-line {
+  padding: 4px 0;
+  border-bottom: 1px solid #333;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 2px solid #007acc;
+}
+
+.header h1 {
+  margin: 0;
+  color: #007acc;
+  font-size: 24px;
+}
+
+.github-link {
+  color: #007acc;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.github-link:hover {
+  text-decoration: underline;
+}
