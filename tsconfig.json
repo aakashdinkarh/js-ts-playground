@@ -13,7 +13,8 @@
       "@common/*": ["components/common/*"],
       "@components/*": ["components/*"],
       "@constants/*": ["constants/*"],
-      "@styles/*": ["styles/*"]
+      "@styles/*": ["styles/*"],
+      "@utils/*": ["utils/*"]
     }
   },
   "include": ["src/**/*"],
