@@ -1,9 +1,10 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import Editor from '@monaco-editor/react';
 import EditorControls from './EditorControls';
 import ConsoleOutputContainer from './ConsoleOutputContainer';
 import { APP_CONSTANTS, STORAGE_KEYS } from '@constants/index';
 import '@styles/components.css';
+import { useDebounce } from '@hooks/useDebounce';
 
 interface EditorBaseProps {
   language: string;
@@ -12,13 +13,18 @@ interface EditorBaseProps {
 
 const EditorBase: React.FC<EditorBaseProps> = ({ language, handleCodeExecution }) => {
   const [output, setOutput] = useState<any[]>([]);
-  const [lastEdit, setLastEdit] = useState<number>(0);
   const [autoRun, setAutoRun] = useState<boolean>(() => {
     return localStorage.getItem(STORAGE_KEYS.AUTO_RUN) !== 'false';
   });
   const [editorContent, setEditorContent] = useState<string>(() => {
     return localStorage.getItem(STORAGE_KEYS.EDITOR_CONTENT(language)) || APP_CONSTANTS.DEFAULT_CODE;
   });
+  const editorContentChanged = useRef(false);
+  const autoRunTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const debouncedSetEditorContent = useDebounce((value: string) => {
+    setEditorContent(value);
+  }, APP_CONSTANTS.EDITOR_CONTENT_DEBOUNCE_DELAY);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEYS.AUTO_RUN, String(autoRun));
@@ -28,22 +34,33 @@ const EditorBase: React.FC<EditorBaseProps> = ({ language, handleCodeExecution }
     localStorage.setItem(STORAGE_KEYS.EDITOR_CONTENT(language), editorContent);
   }, [editorContent, language]);
 
+  const clearAutoRunTimer = useCallback((timerRef: React.MutableRefObject<NodeJS.Timeout | null>) => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  }, []);
+
   const handleRunCode = useCallback((editor: any) => {
+    editorContentChanged.current = false;
+    clearAutoRunTimer(autoRunTimerRef);
     const code = editor.getValue();
     setEditorContent(code);
     setOutput([]);
     handleCodeExecution(code, setOutput);
-  }, [handleCodeExecution]);
+  }, [handleCodeExecution, autoRunTimerRef, clearAutoRunTimer]);
 
   useEffect(() => {
-    if (!lastEdit || !autoRun) return;
+    if (!autoRun || !editorContentChanged.current) return;
 
-    const timer = setTimeout(() => {
+    autoRunTimerRef.current = setTimeout(() => {
       handleRunCode((window as any).editor);
     }, APP_CONSTANTS.AUTO_RUN_DELAY);
 
-    return () => clearTimeout(timer);
-  }, [lastEdit, handleRunCode, autoRun]);
+    return () => {
+      clearAutoRunTimer(autoRunTimerRef);
+    };
+  }, [handleRunCode, autoRun, editorContentChanged, editorContent, clearAutoRunTimer]);
 
   return (
     <>
@@ -59,8 +76,8 @@ const EditorBase: React.FC<EditorBaseProps> = ({ language, handleCodeExecution }
             automaticLayout: true,
           }}
           onChange={(value) => {
-            setEditorContent(value || '');
-            setLastEdit(Date.now());
+            debouncedSetEditorContent(value || '');
+            editorContentChanged.current = true;
           }}
           onMount={(editor) => {
             (window as any).editor = editor;

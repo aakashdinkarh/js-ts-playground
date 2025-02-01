@@ -14,7 +14,8 @@
       "@components/*": ["components/*"],
       "@constants/*": ["constants/*"],
       "@styles/*": ["styles/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@hooks/*": ["hooks/*"]
     }
   },
   "include": ["src/**/*"],

@@ -2,7 +2,8 @@ export const APP_CONSTANTS = {
   TITLE: 'JS/TS Playground',
   GITHUB_URL: 'https://github.com/aakashdinkarh/js-ts-playground',
   DEFAULT_CODE: '// Write your code here\nconsole.log(\'Hello, World!\');',
-  AUTO_RUN_DELAY: 2000,
+  AUTO_RUN_DELAY: 1000, // consider EDITOR_CONTENT_DEBOUNCE_DELAY as 1000ms overall delay becomes 2000ms
+  EDITOR_CONTENT_DEBOUNCE_DELAY: 1000,
 } as const;
 
 export const STORAGE_KEYS = {
