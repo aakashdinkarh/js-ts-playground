@@ -72,6 +72,33 @@
   background-color: rgba(136, 136, 136, 0.1);
 }
 
+.console-table {
+  margin: 8px 0;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.console-table table {
+  border-collapse: collapse;
+  width: 100%;
+  font-family: monospace;
+}
+
+.console-table th,
+.console-table td {
+  border: 1px solid #444;
+  padding: 4px 8px;
+  text-align: left;
+}
+
+.console-table th {
+  background-color: #333;
+}
+
+.console-time {
+  color: #7cb342;
+}
+
 .editor-container {
   height: 70vh;
   display: flex;
@@ -102,4 +129,15 @@
   align-items: center;
   gap: 4px;
   color: #666;
+}
+
+.console-line {
+  padding: 2px 0;
+  display: flex;
+  align-items: flex-start;
+}
+
+.console-line:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
 }

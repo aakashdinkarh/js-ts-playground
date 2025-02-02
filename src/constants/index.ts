@@ -25,6 +25,9 @@ export const CONSOLE_METHODS = {
   WARN: 'warn',
   INFO: 'info',
   DEBUG: 'debug',
+  TABLE: 'table',
+  TIME: 'time',
+  TIME_END: 'timeEnd',
 } as const;
 
 export const CONSOLE_METHOD_LIST = [
@@ -33,4 +36,7 @@ export const CONSOLE_METHOD_LIST = [
   CONSOLE_METHODS.WARN,
   CONSOLE_METHODS.INFO,
   CONSOLE_METHODS.DEBUG,
+  CONSOLE_METHODS.TABLE,
+  CONSOLE_METHODS.TIME,
+  CONSOLE_METHODS.TIME_END,
 ] as const;
