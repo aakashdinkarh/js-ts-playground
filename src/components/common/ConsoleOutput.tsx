@@ -89,25 +89,3 @@ export const ConsoleOutput: React.FC<ConsoleOutputProps> = ({
 
   return <ConsolePrimitive value={value} type={type} />;
 };
-
-
-// todo:
-// - render boolean and number with colors
-// - render null and undefined with colors
-// - render function with colors
-// - render symbol with colors
-// - render bigint with colors
-// - render date with colors
-// - render regexp with colors
-// - render error with colors
-// - render map with colors
-// - render set with colors
-// - render promise with colors
-// - render array with colors
-// - render object with colors
-// - render string with colors
-// - render number with colors
-// - render bigint with colors
-// - render boolean with colors
-// - render symbol with colors
-// - render function with colors  
