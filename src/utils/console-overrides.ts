@@ -58,9 +58,10 @@ export const overrideConsoleMethods = (setOutput: SetOutputFunction) => {
     } 
 
     console[method] = (...args) => {
-      originalMethods.log({args, method});
-      setOutput(prev => [...prev, { type: method, value: args }]);
-      // originalMethods[method](...args); // Keep the original console output
+      setOutput(prev => [...prev, { 
+        type: method, 
+        value: args 
+      }]);
     };
   });
 

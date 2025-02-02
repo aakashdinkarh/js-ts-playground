@@ -59,10 +59,22 @@
   color: #ff4444;
   background-color: rgba(255, 68, 68, 0.1);
 }
-.console-warn {
+.console-warn.depth-0 {
   color: #ffbb33;
   background-color: rgba(255, 187, 51, 0.1);
+  padding: 4px 8px 4px 32px;
+  border-radius: 4px;
+  margin: 2px 0;
+  position: relative;
 }
+
+.console-warn.depth-0::before {
+  content: "⚠️";
+  position: absolute;
+  left: 8px;
+  top: 6px;
+}
+
 .console-info {
   color: #33b5e5;
   background-color: rgba(51, 181, 229, 0.1);

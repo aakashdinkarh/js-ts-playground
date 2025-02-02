@@ -83,15 +83,11 @@ export const ConsoleOutput: React.FC<ConsoleOutputProps> = ({
     navigator.clipboard.writeText(JSON.stringify(value, null, 2));
   };
 
-  // console.log({value, type, depth});
-
-
-  // Handle array of values from console.log
+  // Handle array of values from console.log/warn/error
   if (Array.isArray(value)) {
-    // For multiple arguments in console.log
-    if (depth === 0 && type === 'log') {
+    if (depth === 0 && ['log', 'warn', 'error', 'info', 'debug'].includes(type)) {
       return (
-        <div className={getTypeClass(type)}>
+        <div className={`${getTypeClass(type)} depth-0`}>
           {value.map((val, idx) => (
             <div key={idx} className="console-line">
               <ArrayItem val={val} idx={idx} type={type} />
