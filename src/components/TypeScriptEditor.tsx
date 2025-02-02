@@ -2,9 +2,11 @@ import React from 'react';
 import { EditorBase } from '@components/EditorBase';
 import { transpileTypeScript } from '@utils/typescript-transpiler';
 import { overrideConsoleMethods } from '@utils/console/override';
+import { EditorBaseProps } from 'types/editor';
+import { LANGUAGES } from '@constants/index';
 
 export const TypeScriptEditor: React.FC = () => {
-  const handleCodeExecution = (code: string, setOutput: (value: React.SetStateAction<any[]>) => void) => {
+  const handleCodeExecution: EditorBaseProps['handleCodeExecution'] = (code, setOutput) => {
     overrideConsoleMethods(setOutput);
     try {
       const jsCode = transpileTypeScript(code);
@@ -25,5 +27,5 @@ export const TypeScriptEditor: React.FC = () => {
     }
   };
 
-  return <EditorBase language="typescript" handleCodeExecution={handleCodeExecution} />;
+  return <EditorBase language={LANGUAGES.TYPESCRIPT} handleCodeExecution={handleCodeExecution} />;
 };

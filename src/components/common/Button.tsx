@@ -1,14 +1,11 @@
 import React from 'react';
-
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'danger';
-  size?: 'small' | 'medium' | 'large';
-}
+import { BUTTON_VARIANTS, BUTTON_SIZES } from '@constants/button';
+import { ButtonProps } from 'types/common';
 
 export const Button: React.FC<ButtonProps> = ({ 
   children, 
-  variant = 'primary', 
-  size = 'medium',
+  variant = BUTTON_VARIANTS.PRIMARY, 
+  size = BUTTON_SIZES.MEDIUM,
   className = '',
   ...props 
 }) => {

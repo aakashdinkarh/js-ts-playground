@@ -1,9 +1,11 @@
 import React from 'react';
 import { EditorBase } from '@components/EditorBase';
 import { overrideConsoleMethods } from '@utils/console/override';
+import { EditorBaseProps } from 'types/editor';
+import { LANGUAGES } from '@constants/index';
 
 export const JavaScriptEditor: React.FC = () => {
-  const handleCodeExecution = (code: string, setOutput: (value: React.SetStateAction<any[]>) => void) => {
+  const handleCodeExecution: EditorBaseProps['handleCodeExecution'] = (code, setOutput) => {
     overrideConsoleMethods(setOutput);
     try {
       eval(code);
@@ -12,5 +14,5 @@ export const JavaScriptEditor: React.FC = () => {
     }
   };
 
-  return <EditorBase language="javascript" handleCodeExecution={handleCodeExecution} />;
+  return <EditorBase language={LANGUAGES.JAVASCRIPT} handleCodeExecution={handleCodeExecution} />;
 };

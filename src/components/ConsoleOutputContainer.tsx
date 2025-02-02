@@ -1,10 +1,6 @@
 import React from 'react';
 import { ConsoleOutput } from '@components/common/ConsoleOutput';
-import { ConsoleMessage } from 'types/console';
-
-interface ConsoleOutputContainerProps {
-  output: ConsoleMessage[];
-}
+import { ConsoleOutputContainerProps } from 'types/console';
 
 export const ConsoleOutputContainer: React.FC<ConsoleOutputContainerProps> = ({ output }) => {
   return (

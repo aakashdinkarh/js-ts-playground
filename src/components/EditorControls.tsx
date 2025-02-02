@@ -1,12 +1,6 @@
 import React from 'react';
 import { Button } from '@common/Button';
-
-interface EditorControlsProps {
-  onRun: () => void;
-  onClear: () => void;
-  autoRun: boolean;
-  setAutoRun: (value: boolean) => void;
-}
+import { EditorControlsProps } from 'types/editorControl';
 
 export const EditorControls: React.FC<EditorControlsProps> = ({
   onRun,

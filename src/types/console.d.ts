@@ -1,7 +1,9 @@
 import { SetStateAction } from 'react';
+import { CONSOLE_METHODS } from '@constants/console';
 
-export type ConsoleMethodType = 'log' | 'error' | 'warn' | 'info' | 'debug' | 'table' | 'time' | 'timeEnd';
+export type ConsoleMethodType = typeof CONSOLE_METHODS[keyof typeof CONSOLE_METHODS];
 export type SetOutputFunction = (value: SetStateAction<ConsoleMessage[]>) => void;
+export type ConsoleMethodTypeExcludingTable = Exclude<ConsoleMethodType, typeof CONSOLE_METHODS.TABLE>;
 
 export interface ConsoleMessage {
   type: ConsoleMethodType;

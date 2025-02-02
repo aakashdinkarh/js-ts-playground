@@ -5,11 +5,7 @@ import { ConsoleOutputContainer } from '@components/ConsoleOutputContainer';
 import { APP_CONSTANTS, STORAGE_KEYS } from '@constants/index';
 import '@styles/components.css';
 import { useDebounce } from '@hooks/useDebounce';
-
-interface EditorBaseProps {
-  language: string;
-  handleCodeExecution: (code: string, setOutput: React.Dispatch<React.SetStateAction<string[]>>) => void;
-}
+import { EditorBaseProps } from 'types/editor';
 
 export const EditorBase: React.FC<EditorBaseProps> = ({ language, handleCodeExecution }) => {
   const [output, setOutput] = useState<any[]>([]);

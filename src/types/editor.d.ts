@@ -12,9 +12,3 @@ export interface EditorControlsProps {
   autoRun: boolean;
   setAutoRun: (value: boolean) => void;
 }
-
-export interface TabProps {
-  label: string;
-  isActive: boolean;
-  onClick: () => void;
-} 
