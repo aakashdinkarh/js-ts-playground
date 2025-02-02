@@ -55,10 +55,6 @@
 .console-log {
   color: #d4d4d4;
 }
-.console-error {
-  color: #ff4444;
-  background-color: rgba(255, 68, 68, 0.1);
-}
 .console-warn.depth-0 {
   color: #ffbb33;
   background-color: rgba(255, 187, 51, 0.1);
@@ -72,7 +68,7 @@
   content: "⚠️";
   position: absolute;
   left: 8px;
-  top: 6px;
+  top: 8px;
 }
 
 .console-info {
@@ -152,4 +148,20 @@
 .console-line:last-child {
   padding-bottom: 0;
   border-bottom: none;
+}
+
+.console-error.depth-0 {
+  color: #ff4444;
+  background-color: rgba(255, 68, 68, 0.1);
+  padding: 4px 8px 4px 32px;
+  border-radius: 4px;
+  margin: 2px 0;
+  position: relative;
+}
+
+.console-error.depth-0::before {
+  content: "❌";
+  position: absolute;
+  left: 8px;
+  top: 8px;
 }
