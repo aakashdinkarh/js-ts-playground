@@ -1,6 +1,6 @@
 import React from 'react';
 import { EditorBase } from '@components/EditorBase';
-import { overrideConsoleMethods } from '@utils/console-overrides';
+import { overrideConsoleMethods } from '@utils/console/override';
 
 export const JavaScriptEditor: React.FC = () => {
   const handleCodeExecution = (code: string, setOutput: (value: React.SetStateAction<any[]>) => void) => {

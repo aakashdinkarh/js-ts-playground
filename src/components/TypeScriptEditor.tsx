@@ -1,7 +1,7 @@
 import React from 'react';
 import { EditorBase } from '@components/EditorBase';
 import { transpileTypeScript } from '@utils/typescript-transpiler';
-import { overrideConsoleMethods } from '@utils/console-overrides';
+import { overrideConsoleMethods } from '@utils/console/override';
 
 export const TypeScriptEditor: React.FC = () => {
   const handleCodeExecution = (code: string, setOutput: (value: React.SetStateAction<any[]>) => void) => {
