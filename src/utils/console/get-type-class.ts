@@ -1,5 +1,5 @@
-import { CONSOLE_METHODS } from "@constants/console";
-import { ConsoleOutputProps } from "types/console";
+import { ConsoleOutputProps } from 'types/console';
+import { CONSOLE_METHODS } from '@constants/console';
 
 // Add CSS classes based on console type
 export const getTypeClass = (type: ConsoleOutputProps['type']) => {
