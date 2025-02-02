@@ -2,6 +2,7 @@
   "name": "js-ts-playground",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://aakashdinkarh.github.io/js-ts-playground",
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",
     "react": "^18.2.0",
@@ -11,13 +12,16 @@
   "devDependencies": {
     "@craco/craco": "^7.1.0",
     "@types/react": "^19.0.8",
-    "@types/react-dom": "^19.0.3"
+    "@types/react-dom": "^19.0.3",
+    "gh-pages": "^6.3.0"
   },
   "scripts": {
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
