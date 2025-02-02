@@ -1,0 +1,20 @@
+# These owners will be the default owners for everything in
+# the repo. Unless a later match takes precedence,
+# @aakashdinkarh will be requested for review when someone 
+# opens a pull request.
+*       @aakashdinkarh
+
+# Order is important; the last matching pattern takes the most
+# precedence.
+
+# Core components
+/src/components/           @aakashdinkarh
+/src/utils/               @aakashdinkarh
+
+# Configuration files
+*.json                    @aakashdinkarh
+*.ts                      @aakashdinkarh
+*.tsx                     @aakashdinkarh
+
+# Documentation
+*.md                      @aakashdinkarh 
