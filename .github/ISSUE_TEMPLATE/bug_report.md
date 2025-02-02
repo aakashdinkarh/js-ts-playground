@@ -1,8 +1,10 @@
 ---
 name: Bug report
-title: '[Bug]: '
+about: Template for bug reports
+title: "[Bug]: "
 labels: bug
 assignees: ''
+
 ---
 
 **Describe the bug**
@@ -32,4 +34,4 @@ If applicable, add screenshots to help explain your problem.
  - Version: [e.g. 22]
 
 **Additional context**
-Add any other context about the problem here. 
+Add any other context about the problem here.
