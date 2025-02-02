@@ -1,6 +1,7 @@
 import React from 'react';
 import { ConsoleOutputProps } from 'types/console';
 import { ConsoleOutput } from '@common/ConsoleOutput';
+import { ConsolePrimitive } from '@common/ConsolePrimitive';
 
 interface ConsoleObjectContentProps {
   entries: [string, any][];
@@ -20,7 +21,7 @@ export const ConsoleObjectContent: React.FC<ConsoleObjectContentProps> = ({
         <span className="property-value">
           {typeof val === 'object' && val !== null
             ? <ConsoleOutput value={val} depth={depth + 1} type={type} />
-            : String(val)}
+            : <ConsolePrimitive value={val} type={type} />}
         </span>
       </div>
     ))}

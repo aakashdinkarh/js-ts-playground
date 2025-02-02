@@ -4,26 +4,17 @@ import { transpileTypeScript } from '@utils/typescript-transpiler';
 import { overrideConsoleMethods } from '@utils/console/override';
 import { EditorBaseProps } from 'types/editor';
 import { LANGUAGES } from '@constants/index';
+import { createWrappedCode, handleEvalError } from '@utils/error-handler';
 
 export const TypeScriptEditor: React.FC = () => {
   const handleCodeExecution: EditorBaseProps['handleCodeExecution'] = (code, setOutput) => {
     overrideConsoleMethods(setOutput);
     try {
       const jsCode = transpileTypeScript(code);
-      const wrappedCode = `
-        try {
-          ${jsCode}
-        } catch (error) {
-          console.error(error);
-        }
-      `;
-      const func = new Function('console', wrappedCode);
-      func(console);
+      const wrappedCode = createWrappedCode(jsCode);
+      eval(wrappedCode);
     } catch (error) {
-      setOutput(prev => [...prev, { 
-        type: 'error', 
-        value: [`Error: ${error instanceof Error ? error.message : 'Unknown error'}`] 
-      }]);
+      handleEvalError(error, setOutput);
     }
   };
 

@@ -3,14 +3,15 @@ import { EditorBase } from '@components/EditorBase';
 import { overrideConsoleMethods } from '@utils/console/override';
 import { EditorBaseProps } from 'types/editor';
 import { LANGUAGES } from '@constants/index';
+import { createWrappedCode, handleEvalError } from '@utils/error-handler';
 
 export const JavaScriptEditor: React.FC = () => {
   const handleCodeExecution: EditorBaseProps['handleCodeExecution'] = (code, setOutput) => {
     overrideConsoleMethods(setOutput);
     try {
-      eval(code);
+      eval(createWrappedCode(code));
     } catch (error) {
-      setOutput(prev => [...prev, { type: 'error', value: [`Error: ${error instanceof Error ? error.message : 'Unknown error'}`] }]);
+      handleEvalError(error, setOutput);
     }
   };
 

@@ -3,6 +3,7 @@ import { ConsoleOutputProps } from 'types/console';
 import { ConsoleOutput } from '@common/ConsoleOutput';
 import { copyToClipboard } from '@utils/clipboard';
 import { ConsoleObjectContent } from '@common/ConsoleObjectContent';
+import { ConsolePrimitive } from '@common/ConsolePrimitive';
 
 interface ConsoleArrayItemProps {
   val: any;
@@ -50,7 +51,7 @@ export const ConsoleArrayItem: React.FC<ConsoleArrayItemProps> = ({ val, idx, ty
   return (
     <React.Fragment>
       {idx > 0 && ' '}
-      {String(val)}
+      <ConsolePrimitive value={val} type={type} />
     </React.Fragment>
   );
 }; 

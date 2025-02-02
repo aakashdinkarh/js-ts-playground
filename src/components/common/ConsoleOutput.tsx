@@ -5,6 +5,7 @@ import { getTypeClass } from '@utils/console/get-type-class';
 import { ConsoleArrayItem } from '@common/ConsoleArrayItem';
 import { ConsoleTable } from '@common/ConsoleTable';
 import { ConsoleObject } from '@common/ConsoleObject';
+import { ConsolePrimitive } from '@common/ConsolePrimitive';
 
 export const ConsoleOutput: React.FC<ConsoleOutputProps> = ({
   value,
@@ -39,11 +40,54 @@ export const ConsoleOutput: React.FC<ConsoleOutputProps> = ({
     return <ConsoleObject value={value} type={type} depth={depth} label={`Array(${value.length})`} />;
   }
 
+  if (value instanceof Date) {
+    return <ConsolePrimitive value={value} type={type} />;
+  }
+
+  if (value instanceof RegExp) {
+    return <ConsolePrimitive value={value} type={type} />;
+  }
+
+  if (value instanceof Promise) {
+    return <ConsolePrimitive value={value} type={type} />;
+  }
+
+  if (value instanceof Map) {
+    return <ConsoleObject 
+      value={Object.fromEntries(value)} 
+      type={type} 
+      depth={depth} 
+      label={`Map(${value.size})`} 
+    />;
+  }
+
+  if (value instanceof Set) {
+    return <ConsoleObject 
+      value={Array.from(value)} 
+      type={type} 
+      depth={depth} 
+      label={`Set(${value.size})`} 
+    />;
+  }
+
+  if (value instanceof Error) {
+    return <ConsoleObject 
+      value={{ 
+        message: value.message, 
+        stack: value.stack,
+        ...(value.cause ? { cause: value.cause } : {})
+      }} 
+      type={type} 
+      depth={depth} 
+      label={value.name} 
+    />;
+  }
+
   if (typeof value === 'object' && value !== null) {
     return <ConsoleObject value={value} type={type} depth={depth} />;
   }
 
-  return <span className={getTypeClass(type)}>{String(value)}</span>;
+  return <ConsolePrimitive value={value} type={type} />;
 };
 
 
