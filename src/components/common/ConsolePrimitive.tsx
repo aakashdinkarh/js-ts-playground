@@ -91,7 +91,7 @@ export const ConsolePrimitive: React.FC<ConsolePrimitiveProps> = ({ value, type 
       const isArrow = funcStr.startsWith('(') || funcStr.startsWith('async');
       return (
         <span style={{ color: '#82aaff' }}>
-          ƒ {isArrow ? '(anonymous)' : funcName}
+          ƒ {isArrow ? '(anonymous)' : funcName} {funcStr.slice(funcStr.indexOf('('))}
         </span>
       );
     case 'symbol':
