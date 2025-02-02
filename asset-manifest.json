@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/js-ts-playground/static/css/main.8be6e2f8.css",
+    "main.js": "/js-ts-playground/static/js/main.7bf34923.js",
+    "index.html": "/js-ts-playground/index.html",
+    "main.8be6e2f8.css.map": "/js-ts-playground/static/css/main.8be6e2f8.css.map",
+    "main.7bf34923.js.map": "/js-ts-playground/static/js/main.7bf34923.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8be6e2f8.css",
+    "static/js/main.7bf34923.js"
+  ]
+}
