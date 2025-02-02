@@ -2,7 +2,7 @@ import { CONSOLE_METHOD_LIST } from '@constants/index';
 import { SetOutputFunction, TimeData } from 'types/console';
 
 const timeData: TimeData = {};
-const originalMethods = {
+export const originalMethods = {
   log: console.log,
   error: console.error,
   warn: console.warn,
@@ -48,7 +48,6 @@ export const overrideConsoleMethods = (setOutput: SetOutputFunction) => {
           }]);
           return;
         }
-
         setOutput(prev => [...prev, { 
           type: 'error', 
           value: [`Timer '${label}' does not exist`]
@@ -58,17 +57,7 @@ export const overrideConsoleMethods = (setOutput: SetOutputFunction) => {
     } 
 
     console[method] = (...args) => {
-      setOutput(prev => [...prev, { 
-        type: method, 
-        value: args 
-      }]);
+      setOutput(prev => [...prev, { type: method, value: args }]);
     };
   });
-
-  // Return a function to restore original methods
-  return () => {
-    CONSOLE_METHOD_LIST.forEach(method => {
-      console[method] = originalMethods[method];
-    });
-  };
 }; 

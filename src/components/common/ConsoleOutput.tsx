@@ -83,9 +83,10 @@ export const ConsoleOutput: React.FC<ConsoleOutputProps> = ({
     navigator.clipboard.writeText(JSON.stringify(value, null, 2));
   };
 
-  // Handle array of values from console.log/warn/error
+
   if (Array.isArray(value)) {
-    if (depth === 0 && ['log', 'warn', 'error', 'info', 'debug'].includes(type)) {
+    // For multiple arguments in console methods
+    if (depth === 0 && ['log', 'warn', 'error', 'info', 'debug', 'time', 'timeEnd'].includes(type)) {
       return (
         <div className={`${getTypeClass(type)} depth-0`}>
           {value.map((val, idx) => (

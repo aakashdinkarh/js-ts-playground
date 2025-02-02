@@ -5,15 +5,23 @@ import { overrideConsoleMethods } from '@utils/console-overrides';
 
 export const TypeScriptEditor: React.FC = () => {
   const handleCodeExecution = (code: string, setOutput: (value: React.SetStateAction<any[]>) => void) => {
-    const restoreConsole = overrideConsoleMethods(setOutput);
+    overrideConsoleMethods(setOutput);
     try {
       const jsCode = transpileTypeScript(code);
-      const func = new Function('console', jsCode);
+      const wrappedCode = `
+        try {
+          ${jsCode}
+        } catch (error) {
+          console.error(error);
+        }
+      `;
+      const func = new Function('console', wrappedCode);
       func(console);
     } catch (error) {
-      setOutput(prev => [...prev, { type: 'error', value: [`Error: ${error instanceof Error ? error.message : 'Unknown error'}`] }]);
-    } finally {
-      restoreConsole();
+      setOutput(prev => [...prev, { 
+        type: 'error', 
+        value: [`Error: ${error instanceof Error ? error.message : 'Unknown error'}`] 
+      }]);
     }
   };
 
