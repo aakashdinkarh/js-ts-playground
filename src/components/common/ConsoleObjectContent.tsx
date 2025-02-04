@@ -7,29 +7,32 @@ interface ConsoleObjectContentProps {
   entries: [string, any][];
   depth: number;
   type: ConsoleOutputProps['type'];
-  seen?: WeakSet<any>;
+  seen?: WeakMap<any, string>;
 }
 
 export const ConsoleObjectContent: React.FC<ConsoleObjectContentProps> = ({ 
   entries,
   depth,
   type,
-  seen = new WeakSet()
+  seen = new WeakMap()
 }) => (
   <div className="object-content">
     {entries.map(([key, val]) => {
-      if (typeof val === 'object' && val !== null) {
-        seen.add(val);
-      }
-      
       const isCircular = typeof val === 'object' && val !== null && seen.has(val);
+      const path = isCircular ? seen.get(val) : undefined;
+      
+      // Only add to seen map if it's not already there
+      if (typeof val === 'object' && val !== null && !seen.has(val)) {
+        const currentPath = depth === 0 ? key : `~.${key}`;
+        seen.set(val, currentPath);
+      }
       
       return (
         <div key={key} className="object-property">
           <span className="property-key">{JSON.stringify(key)}: </span>
           <span className="property-value">
             {isCircular ? (
-              '[Circular]'
+              `[Circular → ${path}]`
             ) : (
               typeof val === 'object' && val !== null ? (
                 <ConsoleOutput 

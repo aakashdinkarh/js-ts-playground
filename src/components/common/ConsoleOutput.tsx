@@ -11,7 +11,7 @@ export const ConsoleOutput: React.FC<ConsoleOutputProps> = ({
   value,
   depth = 0,
   type = CONSOLE_METHODS.LOG,
-  seen = new WeakSet()
+  seen = new WeakMap()
 }) => {
   if (Array.isArray(value)) {
     if (depth === 0 && [

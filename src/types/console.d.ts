@@ -18,7 +18,7 @@ export interface ConsoleOutputProps {
   value: any;
   depth?: number;
   type?: ConsoleMethodType;
-  seen?: WeakSet<any>;
+  seen?: WeakMap<any, string>;
 }
 
 export interface ConsoleOutputContainerProps {
