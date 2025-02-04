@@ -7,15 +7,17 @@ import { ConsoleObjectContent } from '@common/ConsoleObjectContent';
 interface ConsoleObjectProps {
   value: any;
   type: ConsoleOutputProps['type'];
-  depth: number;
+  depth?: number;
   label?: string;
+  seen?: WeakSet<any>;
 }
 
 export const ConsoleObject: React.FC<ConsoleObjectProps> = ({ 
   value, 
   type, 
-  depth,
-  label = value.constructor.name 
+  depth = 0,
+  label = value.constructor.name,
+  seen = new WeakSet()
 }) => {
   const [isExpanded, setIsExpanded] = useState(depth === 0);
 
@@ -34,7 +36,8 @@ export const ConsoleObject: React.FC<ConsoleObjectProps> = ({
         <ConsoleObjectContent 
           entries={Object.entries(value)} 
           depth={depth} 
-          type={type} 
+          type={type}
+          seen={seen}
         />
       )}
     </div>
