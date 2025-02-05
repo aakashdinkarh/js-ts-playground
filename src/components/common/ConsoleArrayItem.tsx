@@ -4,6 +4,7 @@ import { ConsoleOutput } from '@common/ConsoleOutput';
 import { copyToClipboard } from '@utils/clipboard';
 import { ConsoleObjectContent } from '@common/ConsoleObjectContent';
 import { ConsolePrimitive } from '@common/ConsolePrimitive';
+import { formatArrayPreview } from '@utils/console/formatters';
 
 interface ConsoleArrayItemProps {
   val: any;
@@ -24,7 +25,7 @@ export const ConsoleArrayItem: React.FC<ConsoleArrayItemProps> = ({ val, idx, ty
               className="expandable"
               onClick={() => setArrayExpanded(!isArrayExpanded)}
             >
-              {isArrayExpanded ? '▼' : '▶'} ({val.length}) [{val.join(', ')}]
+              {isArrayExpanded ? '▼' : '▶'} ({val.length}) [{formatArrayPreview(val)}]
               <button className="copy-btn" onClick={(e) => {
                 e.stopPropagation();
                 copyToClipboard(val);
@@ -34,7 +35,7 @@ export const ConsoleArrayItem: React.FC<ConsoleArrayItemProps> = ({ val, idx, ty
               <ConsoleObjectContent 
                 entries={val.map((item, i) => [String(i), item])} 
                 depth={1} 
-                type={type} 
+                type={type}
               />
             )}
           </div>
