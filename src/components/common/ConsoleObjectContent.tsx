@@ -28,7 +28,7 @@ export const ConsoleObjectContent: React.FC<ConsoleObjectContentProps> = ({
       }
       
       return (
-        <div key={key} className="object-property">
+        <div key={key} className="object-property" data-testid='object-property' >
           <span className="property-key">{JSON.stringify(key)}: </span>
           <span className="property-value">
             {isCircular ? (

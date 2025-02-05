@@ -30,7 +30,7 @@ export const EditorBase: React.FC<EditorBaseProps> = ({ language, handleCodeExec
     localStorage.setItem(STORAGE_KEYS.EDITOR_CONTENT(language), editorContent);
   }, [editorContent, language]);
 
-  const clearAutoRunTimer = useCallback((timerRef: React.MutableRefObject<NodeJS.Timeout | null>) => {
+  const clearAutoRunTimer = useCallback((timerRef: React.RefObject<NodeJS.Timeout | null>) => {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;

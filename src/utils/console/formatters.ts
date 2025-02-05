@@ -7,4 +7,10 @@ export const formatConsoleValue = (value: any): string => {
 
 export const formatTimerDuration = (duration: number): string => {
   return `${duration.toFixed(2)}ms`;
+};
+
+export const formatArrayPreview = (arr: any[]): string => {
+  return arr.map(item => 
+    Array.isArray(item) ? `[${item.join(', ')}]` : item
+  ).join(', ');
 }; 

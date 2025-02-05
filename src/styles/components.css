@@ -68,15 +68,24 @@
   font-family: monospace;
 }
 
-.console-table th,
-.console-table td {
-  border: 1px solid #444;
-  padding: 4px 8px;
+.console-table th {
   text-align: left;
+  padding: 4px 8px;
+  border: 1px solid #444;
+  background-color: #2a2a2a;
 }
 
-.console-table th {
-  background-color: #333;
+.console-table td {
+  padding: 4px 8px;
+  border: 1px solid #444;
+}
+
+.console-table tr:nth-child(even) {
+  background-color: #1e1e1e;
+}
+
+.console-table tr:nth-child(odd) {
+  background-color: #252525;
 }
 
 .editor-container {
