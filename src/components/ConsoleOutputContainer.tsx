@@ -1,5 +1,5 @@
 import React from 'react';
-import { ConsoleOutput } from '@components/common/ConsoleOutput';
+import { ConsoleOutput } from '@common/ConsoleOutput';
 import { ConsoleOutputContainerProps } from 'types/console';
 
 export const ConsoleOutputContainer: React.FC<ConsoleOutputContainerProps> = ({ output }) => {

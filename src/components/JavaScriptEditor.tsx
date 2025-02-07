@@ -2,7 +2,7 @@ import React from 'react';
 import { EditorBase } from '@components/EditorBase';
 import { overrideConsoleMethods } from '@utils/console/override';
 import { EditorBaseProps } from 'types/editor';
-import { LANGUAGES } from '@constants/index';
+import { LANGUAGES } from '@constants/app';
 import { createWrappedCode, handleEvalError } from '@utils/error-handler';
 
 export const JavaScriptEditor: React.FC = () => {

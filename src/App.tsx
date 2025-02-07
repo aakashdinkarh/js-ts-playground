@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { Tab } from '@components/common/Tab';
 import { JavaScriptEditor } from '@components/JavaScriptEditor';
 import { TypeScriptEditor } from '@components/TypeScriptEditor';
-import { APP_CONSTANTS, STORAGE_KEYS, LANGUAGES, Language } from '@constants/index';
+import { APP_CONSTANTS, LANGUAGES, Language } from '@constants/app';
+import { STORAGE_KEYS } from '@constants/storage';
 import '@styles/components.css';
 import '@styles/app.css';
 
