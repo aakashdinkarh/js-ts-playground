@@ -1,4 +1,4 @@
-import { Language } from '@constants/index';
+import { Language } from '@constants/app';
 import { SetOutputFunction } from 'types/console';
 
 export interface EditorBaseProps {
