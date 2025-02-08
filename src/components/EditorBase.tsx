@@ -46,7 +46,6 @@ export const EditorBase: React.FC<EditorBaseProps> = ({ language, handleCodeExec
     <>
       <div className="editor-container">
         <Editor
-          height="70vh"
           defaultLanguage={language}
           value={editorContent}
           theme="vs-dark"

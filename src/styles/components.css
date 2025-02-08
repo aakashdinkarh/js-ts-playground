@@ -89,12 +89,12 @@
 }
 
 .editor-container {
-  height: 70vh;
+  height: 40vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   border: 1px solid #ccc;
   border-radius: 4px;
+  overflow: visible;
 }
 
 .output-container {
