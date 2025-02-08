@@ -7,6 +7,7 @@ import { APP_CONSTANTS } from '@constants/app';
 import '@styles/components.css';
 import { useDebounce } from '@hooks/useDebounce';
 import { EditorBaseProps } from 'types/editor';
+import { overrideConsoleMethods } from '@utils/console/override';
 
 export const EditorBase: React.FC<EditorBaseProps> = ({ language, handleCodeExecution }) => {
   const [output, setOutput] = useState<any[]>([]);
@@ -21,7 +22,7 @@ export const EditorBase: React.FC<EditorBaseProps> = ({ language, handleCodeExec
     const code = editor.getValue();
     setEditorContent(code);
     setOutput([]);
-    handleCodeExecution(code, setOutput);
+    handleCodeExecution(code);
   }, [handleCodeExecution]);
 
   const debouncedSetEditorContent = useDebounce((value: string, editor: any) => {
@@ -30,6 +31,8 @@ export const EditorBase: React.FC<EditorBaseProps> = ({ language, handleCodeExec
       handleRunCode(editor);
     }
   }, APP_CONSTANTS.EDITOR_CONTENT_DEBOUNCE_DELAY);
+
+  overrideConsoleMethods(setOutput);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEYS.AUTO_RUN, String(autoRun));

@@ -1,20 +1,32 @@
 import React from 'react';
 import { EditorBase } from '@components/EditorBase';
-import { transpileTypeScript } from '@utils/typescript-transpiler';
-import { overrideConsoleMethods } from '@utils/console/override';
 import { EditorBaseProps } from 'types/editor';
 import { LANGUAGES } from '@constants/app';
-import { createWrappedCode, handleEvalError } from '@utils/error-handler';
+import { __handleError } from '@utils/errorHandlerOverrides';
+import { loadTypeScriptCompiler } from '@utils/typescript-loader';
 
 export const TypeScriptEditor: React.FC = () => {
-  const handleCodeExecution: EditorBaseProps['handleCodeExecution'] = (code, setOutput) => {
-    overrideConsoleMethods(setOutput);
+  loadTypeScriptCompiler();
+
+  const handleCodeExecution: EditorBaseProps['handleCodeExecution'] = async (code) => {
+    const isCompilerReady = await loadTypeScriptCompiler();
+
+    if (!isCompilerReady) {
+      console.error('TypeScript compiler could not be loaded');
+      return;
+    }
+
     try {
-      const jsCode = transpileTypeScript(code);
-      const wrappedCode = createWrappedCode(jsCode);
-      eval(wrappedCode);
+      const jsCode = window.ts.transpileModule(code, {
+        compilerOptions: {
+          target: window.ts.ScriptTarget.ES5,
+          module: window.ts.ModuleKind.None,
+        }
+      }).outputText;
+
+      eval(jsCode);
     } catch (error) {
-      handleEvalError(error, setOutput);
+      __handleError(error);
     }
   };
 
