@@ -10,7 +10,8 @@ import { ConsolePrimitive } from '@common/ConsolePrimitive';
 export const ConsoleOutput: React.FC<ConsoleOutputProps> = ({
   value,
   depth = 0,
-  type = CONSOLE_METHODS.LOG
+  type = CONSOLE_METHODS.LOG,
+  seen = new WeakMap()
 }) => {
   if (Array.isArray(value)) {
     if (depth === 0 && [
@@ -37,7 +38,7 @@ export const ConsoleOutput: React.FC<ConsoleOutputProps> = ({
       return <ConsoleTable value={value} />;
     }
 
-    return <ConsoleObject value={value} type={type} depth={depth} label={`Array(${value.length})`} />;
+    return <ConsoleObject value={value} type={type} depth={depth} label={`Array(${value.length})`} seen={seen} />;
   }
 
   if (value instanceof Date) {
@@ -58,6 +59,7 @@ export const ConsoleOutput: React.FC<ConsoleOutputProps> = ({
       type={type} 
       depth={depth} 
       label={`Map(${value.size})`} 
+      seen={seen}
     />;
   }
 
@@ -67,6 +69,7 @@ export const ConsoleOutput: React.FC<ConsoleOutputProps> = ({
       type={type} 
       depth={depth} 
       label={`Set(${value.size})`} 
+      seen={seen}
     />;
   }
 
@@ -80,11 +83,12 @@ export const ConsoleOutput: React.FC<ConsoleOutputProps> = ({
       type={type} 
       depth={depth} 
       label={value.name} 
+      seen={seen}
     />;
   }
 
   if (typeof value === 'object' && value !== null) {
-    return <ConsoleObject value={value} type={type} depth={depth} />;
+    return <ConsoleObject value={value} type={type} depth={depth} seen={seen} />;
   }
 
   return <ConsolePrimitive value={value} type={type} />;

@@ -87,11 +87,11 @@ export const ConsolePrimitive: React.FC<ConsolePrimitiveProps> = ({ value, type 
       return <span style={{ color: '#ff628c' }}>{String(value)}</span>;
     case 'function':
       const funcStr = value.toString();
-      const funcName = value.name || '(anonymous)';
-      const isArrow = funcStr.startsWith('(') || funcStr.startsWith('async');
+      const funcName = value.name;
+      const isArrow = funcStr.includes('=>');
       return (
         <span style={{ color: '#82aaff' }}>
-          ƒ {isArrow ? '(anonymous)' : funcName} {funcStr.slice(funcStr.indexOf('('))}
+          ƒ {!isArrow && funcName} {funcStr.slice(funcStr.indexOf('('))}
         </span>
       );
     case 'symbol':

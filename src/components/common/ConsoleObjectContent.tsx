@@ -7,23 +7,47 @@ interface ConsoleObjectContentProps {
   entries: [string, any][];
   depth: number;
   type: ConsoleOutputProps['type'];
+  seen?: WeakMap<any, string>;
 }
 
 export const ConsoleObjectContent: React.FC<ConsoleObjectContentProps> = ({ 
   entries,
   depth,
-  type 
+  type,
+  seen = new WeakMap()
 }) => (
   <div className="object-content">
-    {entries.map(([key, val]) => (
-      <div key={key} className="object-property">
-        <span className="property-key">{key}: </span>
-        <span className="property-value">
-          {typeof val === 'object' && val !== null
-            ? <ConsoleOutput value={val} depth={depth + 1} type={type} />
-            : <ConsolePrimitive value={val} type={type} />}
-        </span>
-      </div>
-    ))}
+    {entries.map(([key, val]) => {
+      const isCircular = typeof val === 'object' && val !== null && seen.has(val);
+      const path = isCircular ? seen.get(val) : undefined;
+      
+      // Only add to seen map if it's not already there
+      if (typeof val === 'object' && val !== null && !seen.has(val)) {
+        const currentPath = depth === 0 ? key : `~.${key}`;
+        seen.set(val, currentPath);
+      }
+      
+      return (
+        <div key={key} className="object-property" data-testid='object-property' >
+          <span className="property-key">{JSON.stringify(key)}: </span>
+          <span className="property-value">
+            {isCircular ? (
+              `[Circular → ${path}]`
+            ) : (
+              typeof val === 'object' && val !== null ? (
+                <ConsoleOutput 
+                  value={val} 
+                  depth={depth + 1} 
+                  type={type} 
+                  seen={seen}
+                />
+              ) : (
+                <ConsolePrimitive value={val} type={type} />
+              )
+            )}
+          </span>
+        </div>
+      );
+    })}
   </div>
 ); 

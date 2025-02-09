@@ -1,9 +1,8 @@
-import { Language } from '@constants/index';
-import { SetOutputFunction } from 'types/console';
+import { Language } from '@constants/app';
 
 export interface EditorBaseProps {
   language: Language;
-  handleCodeExecution: (code: string, setOutput: SetOutputFunction) => void;
+  handleCodeExecution: (code: string) => Promise<void>;
 }
 
 export interface EditorControlsProps {

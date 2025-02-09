@@ -24,13 +24,6 @@
   color: white;
 }
 
-.editor-container {
-  flex: 1;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
 .controls {
   display: flex;
   gap: 10px;

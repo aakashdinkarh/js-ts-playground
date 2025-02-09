@@ -1,13 +1,19 @@
-export const errorHandlerOverrides = () => {
-  const __handleError = (error: unknown) => {
-    console.error(
-      error instanceof Error 
-        ? `${error.name}: ${error.message}\n${error.stack}`
-        : String(error)
-    );
-    return true;
-  };
+export const __handleError = (error: unknown) => {
+  const errorMessage = error instanceof Error 
+    ? `${error.name}: ${error.message}`
+    : String(error);
 
+  const errors = [errorMessage];
+
+  const errorStack = error instanceof Error && error.stack;
+  if (errorStack) {
+    errors.push(`Stack => ${errorStack}`);
+  }
+  console.error(...errors);
+  return true;
+};
+
+export const errorHandlerOverrides = () => {
   // Preserve setTimeout's type
   const originalSetTimeout = window.setTimeout;
   const newSetTimeout = function(handler: TimerHandler, timeout?: number, ...args: any[]) {

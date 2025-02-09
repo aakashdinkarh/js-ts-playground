@@ -1,20 +1,47 @@
 import React from 'react';
 import { EditorBase } from '@components/EditorBase';
-import { transpileTypeScript } from '@utils/typescript-transpiler';
-import { overrideConsoleMethods } from '@utils/console/override';
 import { EditorBaseProps } from 'types/editor';
-import { LANGUAGES } from '@constants/index';
-import { createWrappedCode, handleEvalError } from '@utils/error-handler';
+import { LANGUAGES } from '@constants/app';
+import { __handleError } from '@utils/errorHandlerOverrides';
+import { loadTypeScriptCompiler } from '@utils/typescript-loader';
+import { checkEditorErrors } from '@utils/monaco';
 
 export const TypeScriptEditor: React.FC = () => {
-  const handleCodeExecution: EditorBaseProps['handleCodeExecution'] = (code, setOutput) => {
-    overrideConsoleMethods(setOutput);
+  loadTypeScriptCompiler();
+
+  const handleCodeExecution: EditorBaseProps['handleCodeExecution'] = async (code) => {
+    const isCompilerReady = await loadTypeScriptCompiler();
+
+    if (!isCompilerReady) {
+      console.error('TypeScript compiler could not be loaded');
+      return;
+    }
+
     try {
-      const jsCode = transpileTypeScript(code);
-      const wrappedCode = createWrappedCode(jsCode);
-      eval(wrappedCode);
+      // Check for editor errors with retries
+      const errorCheck = await checkEditorErrors({ maxRetries: 2, retryDelay: 1000 });
+      if (!errorCheck) return;
+
+      if (errorCheck.hasErrors) {
+        console.error('TypeScript compilation errors:', ...errorCheck.errors);
+        return;
+      }
+
+      if (errorCheck.hasWarnings) {
+        console.warn('TypeScript compilation warnings:', ...errorCheck.warnings);
+      }
+
+      // Only transpile and run if no errors
+      const jsCode = window.ts.transpileModule(code, {
+        compilerOptions: {
+          target: window.ts.ScriptTarget.ES5,
+          module: window.ts.ModuleKind.None,
+        }
+      }).outputText;
+
+      eval(jsCode);
     } catch (error) {
-      handleEvalError(error, setOutput);
+      __handleError(error);
     }
   };
 

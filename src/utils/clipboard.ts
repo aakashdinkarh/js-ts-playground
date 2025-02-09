@@ -1,7 +1,7 @@
-export const copyToClipboard = (value: any) => {
+export const copyToClipboard = async (value: any) => {
   const text = typeof value === 'object' 
     ? JSON.stringify(value, null, 2)
     : String(value);
-    
-  navigator.clipboard.writeText(text);
+
+  await navigator.clipboard.writeText(text);
 }; 
