@@ -107,6 +107,7 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 ```
 js-ts-playground/
 ├── src/
+│   ├── __tests__/      # Test files
 │   ├── components/     # React components
 │   ├── utils/          # Utility functions
 │   ├── constants/      # Constants and configurations
