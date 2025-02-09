@@ -4,7 +4,6 @@ import { JavaScriptEditor } from '@components/JavaScriptEditor';
 import { TypeScriptEditor } from '@components/TypeScriptEditor';
 import { APP_CONSTANTS, LANGUAGES, Language } from '@constants/app';
 import { STORAGE_KEYS } from '@constants/storage';
-import '@styles/components.css';
 import '@styles/app.css';
 
 const DEFAULT_LANGUAGE: Language = LANGUAGES.TYPESCRIPT;

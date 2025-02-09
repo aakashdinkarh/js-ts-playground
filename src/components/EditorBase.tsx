@@ -4,7 +4,6 @@ import { EditorControls } from '@components/EditorControls';
 import { ConsoleOutputContainer } from '@components/ConsoleOutputContainer';
 import { STORAGE_KEYS } from '@constants/storage';
 import { APP_CONSTANTS } from '@constants/app';
-import '@styles/components.css';
 import { useDebounce } from '@hooks/useDebounce';
 import { EditorBaseProps } from 'types/editor';
 import { overrideConsoleMethods } from '@utils/console/override';

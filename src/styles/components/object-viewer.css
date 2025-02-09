@@ -1,0 +1,21 @@
+.expandable {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.object-content {
+  padding-left: var(--spacing-xl);
+}
+
+.object-property {
+  line-height: 1.5;
+}
+
+.property-key {
+  color: var(--property-key);
+}
+
+.property-value {
+  color: var(--property-value);
+} 
