@@ -43,8 +43,15 @@ export const EditorBase: React.FC<EditorBaseProps> = ({ language, handleCodeExec
   }, [editorContent, language]);
 
   return (
-    <>
+    <div className="editor-output-container">
       <div className="editor-container">
+        <EditorControls
+          onRun={() => handleRunCode((window as any).editor)}
+          onClear={() => setOutput([])}
+          autoRun={autoRun}
+          setAutoRun={setAutoRun}
+        />
+        <hr />
         <Editor
           defaultLanguage={language}
           value={editorContent}
@@ -63,13 +70,7 @@ export const EditorBase: React.FC<EditorBaseProps> = ({ language, handleCodeExec
           }}
         />
       </div>
-      <EditorControls
-        onRun={() => handleRunCode((window as any).editor)}
-        onClear={() => setOutput([])}
-        autoRun={autoRun}
-        setAutoRun={setAutoRun}
-      />
-      <ConsoleOutputContainer output={output} />
-    </>
+      <ConsoleOutputContainer output={output} setOutput={setOutput} />
+    </div>
   );
 };

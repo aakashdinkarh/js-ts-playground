@@ -23,4 +23,5 @@ export interface ConsoleOutputProps {
 
 export interface ConsoleOutputContainerProps {
   output: ConsoleMessage[];
+  setOutput: SetOutputFunction;
 } 

@@ -10,12 +10,10 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
 }) => {
   return (
     <div className="controls">
-      <Button variant="primary" onClick={onRun}>
-        Run Code
+      <Button variant="icon" onClick={onRun}>
+        <svg width={20} height={20} viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
       </Button>
-      <Button variant="danger" onClick={onClear}>
-        Clear Console
-      </Button>
+
       <label className="auto-run-toggle">
         <input
           type="checkbox"

@@ -1,40 +1,13 @@
 .btn {
-  padding: 8px 16px;
+  display: flex;
+  padding: 6px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-weight: 500;
   transition: all 0.2s;
-}
-
-.btn-primary {
   background-color: #007acc;
   color: white;
-}
-
-.btn-secondary {
-  background-color: #f0f0f0;
-  color: #333;
-}
-
-.btn-danger {
-  background-color: #dc3545;
-  color: white;
-}
-
-.btn-small {
-  padding: 4px 8px;
-  font-size: 12px;
-}
-
-.btn-medium {
-  padding: 8px 16px;
-  font-size: 14px;
-}
-
-.btn-large {
-  padding: 12px 24px;
-  font-size: 16px;
 }
 
 .console-output {
@@ -45,6 +18,12 @@
   font-family: 'Consolas', 'Monaco', monospace;
   overflow-x: auto;
   white-space: pre-wrap;
+}
+
+hr {
+  background-color: #aaa;
+  border: none;
+  height: 1px;
 }
 
 .console-output pre {
@@ -89,28 +68,18 @@
 }
 
 .editor-container {
-  height: 40vh;
   display: flex;
   flex-direction: column;
   border: 1px solid #ccc;
   border-radius: 4px;
   overflow: visible;
-}
-
-.output-container {
-  height: 30vh;
-  overflow-y: auto;
   background-color: #1e1e1e;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 12px;
 }
 
 .controls {
   display: flex;
-  gap: 8px;
-  margin: 12px 0;
   align-items: center;
+  padding: 6px 6px 4px;
 }
 
 .auto-run-toggle {
