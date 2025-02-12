@@ -9,9 +9,11 @@ import { useDebounce } from '@hooks/useDebounce';
 import { EditorBaseProps } from 'types/editor';
 import { overrideConsoleMethods } from '@utils/console/override';
 import { SHORTCUTS } from '@constants/shortcuts';
+import { useWindowResize } from '@hooks/useWindowResize';
 
 export const EditorBase: React.FC<EditorBaseProps> = ({ language, handleCodeExecution }) => {
   const [output, setOutput] = useState<any[]>([]);
+  const { editorKey } = useWindowResize();
   const [autoRun, setAutoRun] = useState<boolean>(() => {
     return localStorage.getItem(STORAGE_KEYS.AUTO_RUN) !== 'false';
   });
@@ -66,6 +68,7 @@ export const EditorBase: React.FC<EditorBaseProps> = ({ language, handleCodeExec
         />
         <hr />
         <Editor
+          key={editorKey}
           defaultLanguage={language}
           value={editorContent}
           theme="vs-dark"

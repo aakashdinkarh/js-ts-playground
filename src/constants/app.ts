@@ -3,6 +3,8 @@ export const APP_CONSTANTS = {
   GITHUB_URL: 'https://github.com/aakashdinkarh/js-ts-playground',
   DEFAULT_CODE: '// Write your code here\nconsole.log(\'Hello, World!\');',
   EDITOR_CONTENT_DEBOUNCE_DELAY: 2000,
+  DIMENSION_CHANGE_THRESHOLD: 50,
+  MOBILE_BREAKPOINT: 768,
 } as const;
 
 export const LANGUAGES = {
