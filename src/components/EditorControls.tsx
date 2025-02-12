@@ -10,7 +10,7 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
 }) => {
   return (
     <div className="controls">
-      <Button variant="icon" onClick={onRun}>
+      <Button title='Run' variant="icon" onClick={onRun}>
         <svg width={20} height={20} viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
       </Button>
 

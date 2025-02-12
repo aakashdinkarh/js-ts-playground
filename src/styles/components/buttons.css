@@ -1,6 +1,6 @@
 .btn {
   display: flex;
-  padding: var(--spacing-md);
+  padding: var(--spacing-sm);
   border: none;
   border-radius: var(--border-radius);
   cursor: pointer;

@@ -167,4 +167,25 @@
 
 .console-table tr:nth-child(odd) {
   background-color: var(--background-darker);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+}
+
+.console-stats {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+}
+
+.error-count {
+  color: #ff628c;
+}
+
+.warning-count {
+  color: #ffd700;
 } 
