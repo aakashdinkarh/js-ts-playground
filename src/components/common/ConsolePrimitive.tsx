@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { ConsoleOutputProps } from 'types/console';
+import { ConsolePromise } from './ConsolePromise';
 
 interface ConsolePrimitiveProps {
   value: any;
@@ -7,49 +8,6 @@ interface ConsolePrimitiveProps {
 }
 
 export const ConsolePrimitive: React.FC<ConsolePrimitiveProps> = ({ value, type }) => {
-  const [promiseState, setPromiseState] = useState<string>('pending');
-  const [promiseResult, setPromiseResult] = useState<any>(undefined);
-
-  useEffect(() => {
-    let mounted = true;
-
-    if (value instanceof Promise) {
-      try {
-        value.then(
-          (result) => {
-            if (mounted) {
-              setPromiseState('fulfilled');
-              setPromiseResult(result);
-            }
-          },
-          (error) => {
-            if (mounted) {
-              setPromiseState('rejected');
-              setPromiseResult(
-                error instanceof Error 
-                  ? `${error.name}: ${error.message}\n${error.stack}`
-                  : String(error)
-              );
-            }
-          }
-        );
-      } catch (error) {
-        if (mounted) {
-          setPromiseState('rejected');
-          // @ts-ignore
-          setPromiseResult(error instanceof Error 
-            ? `${error.name}: ${error.message}\n${error.stack}`
-            : String(error)
-          );
-        }
-      }
-    }
-
-    return () => {
-      mounted = false;
-    };
-  }, [value]);
-
   if (value === null) {
     return <span style={{ color: '#ff628c' }}>null</span>;
   }
@@ -70,12 +28,7 @@ export const ConsolePrimitive: React.FC<ConsolePrimitiveProps> = ({ value, type 
 
   // Handle Promise
   if (value instanceof Promise) {
-    const isRejected = promiseState === 'rejected';
-    return (
-      <span style={{ color: isRejected ? '#ff628c' : '#82aaff' }}>
-        Promise {`{<${promiseState}>` + (promiseResult !== undefined ? `: ${promiseResult}` : '') + '}'}
-      </span>
-    );
+    return <ConsolePromise value={value} type={type} />;
   }
 
   switch (typeof value) {

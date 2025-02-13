@@ -1,0 +1,52 @@
+.container {
+  padding: 12px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.editor-output-container {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+  overflow: auto;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.editor-output-container > .editor-container,
+.editor-output-container > .console-output-container {
+  flex: 1 1 50%;
+  min-height: 55vh;
+
+  @media (max-width: 768px) {
+    flex: 1;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 2px solid #007acc;
+}
+
+.header h1 {
+  margin: 0;
+  color: #007acc;
+  font-size: 24px;
+}
+
+.github-link {
+  color: #007acc;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.github-link:hover {
+  text-decoration: underline;
+} 

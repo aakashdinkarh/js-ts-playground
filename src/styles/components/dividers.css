@@ -1,0 +1,5 @@
+hr {
+  background-color: var(--border-color);
+  border: none;
+  height: 1px;
+} 

@@ -1,0 +1,37 @@
+:root {
+  /* Colors */
+  --primary-color: #007acc;
+  --background-dark: #1e1e1e;
+  --background-darker: #252525;
+  --text-light: #d4d4d4;
+  --text-dark: #666;
+  --border-color: #ccc;
+  --border-dark: #444;
+  --border-darker: #333;
+  
+  /* Console Colors */
+  --console-warn: #ffbb33;
+  --console-error: #ff4444;
+  --console-info: #33b5e5;
+  --console-debug: #888;
+  --console-time: #7cb342;
+  --property-key: #9cdcfe;
+  --property-value: #ce9178;
+  
+  /* Spacing */
+  --spacing-xs: 2px;
+  --spacing-sm: 4px;
+  --spacing-md: 8px;
+  --spacing-lg: 12px;
+  --spacing-xl: 16px;
+  
+  /* Font */
+  --font-mono: 'Consolas', 'Monaco', monospace;
+  --font-size-sm: 12px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 24px;
+  
+  /* Border Radius */
+  --border-radius: 4px;
+} 
