@@ -12,10 +12,6 @@ export const ConsoleOutputContainer: React.FC<ConsoleOutputContainerProps> = ({ 
   const errorCount = output.filter(msg => msg.type === CONSOLE_METHODS.ERROR).length;
   const warningCount = output.filter(msg => msg.type === CONSOLE_METHODS.WARN).length;
 
-  console.dir(errorCount);
-  console.dir(warningCount);
-  console.dir(output);
-
   return (
     <div className='console-output-container'>
       <div className='controls'>
