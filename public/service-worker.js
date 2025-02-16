@@ -157,9 +157,6 @@ self.addEventListener('install', event => {
                 // Cache CDN files
                 await Promise.allSettled(
                     CDN_URLS.map(async (url) => {
-                        if (url === 'https://cdnjs.cloudflare.com/ajax/libs/typescript/5.7.3/typescript.min.js') {
-                            debugger;
-                        }
                         const response = await fetch(url);
                         if (response.ok) {
                             await cacheWithTimestamp(new Request(url), response);
@@ -167,9 +164,16 @@ self.addEventListener('install', event => {
                     })
                 );
                 
-                console.log('Precache successful');
+                console.dir({
+                  message: 'Precache successful',
+                  type: 'log'
+                })
             } catch (error) {
-                console.error('Precache failed:', error);
+                console.dir({
+                  message: `Precache failed: ${error?.message}`,
+                  error: error,
+                  type: 'error'
+                })
             }
         })
     );
@@ -186,9 +190,6 @@ self.addEventListener('fetch', event => {
 
     const url = event.request.url;
     if (!shouldCache(url)) return;
-    if (url === 'https://cdnjs.cloudflare.com/ajax/libs/typescript/5.7.3/typescript.min.js') {
-        debugger;
-    }
 
     event.respondWith(
         caches.match(event.request).then(async (cachedResponse) => {
@@ -213,7 +214,10 @@ self.addEventListener('fetch', event => {
             } catch (error) {
                 // Return expired cached response if network fails
                 if (cachedResponse) {
-                    console.log('Returning expired cache due to network error');
+                    console.dir({
+                      message: 'Returning expired cache due to network error',
+                      type: 'log'
+                    })
                     return cachedResponse;
                 }
                 

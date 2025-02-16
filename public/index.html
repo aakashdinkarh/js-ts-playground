@@ -47,14 +47,24 @@
             const registration = await navigator.serviceWorker.register(swPath, {
               scope: scope
             });
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+
+            console.dir({
+              message: `ServiceWorker registration successful with scope: ${registration.scope}`,
+              type: 'log'
+            })
           } catch (error) {
-            console.error('ServiceWorker registration failed: ', error);
-            console.error('Error details:', error.message);
+            console.dir({
+              message: `ServiceWorker registration failed: ${error?.message}`,
+              error: error,
+              type: 'error'
+            })
           }
         });
       } else {
-        console.log('Service workers are not supported in this browser');
+        console.dir({
+          message: 'Service workers are not supported in this browser',
+          type: 'log'
+        })
       }
     </script>
     <!--
