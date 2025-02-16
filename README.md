@@ -15,6 +15,12 @@ A browser-based JavaScript/TypeScript playground with a Chrome DevTools-like con
   - Primitive types with syntax highlighting
 - ⚡ Auto-run capability
 - 🎨 Syntax highlighting
+- 📱 Progressive Web App (PWA) support
+- 🔄 Offline capability with smart caching:
+  - Monaco editor resources
+  - Application assets
+  - Intelligent cache management
+  - Automatic cache updates
 
 ## Getting Started
 
@@ -70,6 +76,20 @@ roles: ['admin', 'user']
 };
 console.log(user);
 ```
+
+## Offline Support
+
+The playground implements a sophisticated caching strategy that enables:
+
+- ⚡ Fast loading times with cached resources
+- 🔌 Offline functionality
+- 📦 Smart caching of Monaco editor resources
+- 🔄 Automatic cache updates when new versions are available
+- 💾 Two-tier caching system:
+  - Short-term (2 hours) for application assets
+  - Long-term (7 days) for stable CDN resources
+
+The playground will work even without an internet connection once you've visited it at least once.
 
 ## Contributing
 
