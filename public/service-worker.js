@@ -1,6 +1,6 @@
 // Cache configuration
 const CACHE_NAME = 'js-ts-playground-cache-v1';
-const REGULAR_CACHE_EXPIRATION_TIME = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
+const REGULAR_CACHE_EXPIRATION_TIME = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 const LONG_CACHE_EXPIRATION_TIME = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
 
 // Get the base path for GitHub Pages
