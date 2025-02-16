@@ -29,11 +29,6 @@ const URL_SCHEMES = {
 // File paths and extensions
 const PATHS = {
     ROOT: BASE_PATH,
-    INDEX: `${BASE_PATH}index.html`,
-    MANIFEST: `${BASE_PATH}manifest.json`,
-    FAVICON: `${BASE_PATH}favicon.ico`,
-    LOGO_192: `${BASE_PATH}logo192.png`,
-    LOGO_512: `${BASE_PATH}logo512.png`
 };
 
 const FILE_EXTENSIONS = {
@@ -59,11 +54,6 @@ const CDN_BASE = 'https://cdn';
 // Assets that should be cached immediately during installation
 const PRECACHE_URLS = [
     PATHS.ROOT,
-    PATHS.INDEX,
-    PATHS.MANIFEST,
-    PATHS.FAVICON,
-    PATHS.LOGO_192,
-    PATHS.LOGO_512
 ];
 
 // CDN URLs that should be cached with longer expiration
@@ -148,39 +138,57 @@ function isCacheExpired(response) {
 // Install event - cache initial assets
 // eslint-disable-next-line no-restricted-globals
 self.addEventListener('install', event => {
-    event.waitUntil(
-        caches.open(CACHE_NAME).then(async (cache) => {
-            try {
-                // Cache local assets
-                await cache.addAll(PRECACHE_URLS);
-                
-                // Cache CDN files
-                await Promise.allSettled(
+    event.waitUntil((async () => {
+        try {
+            const cache = await caches.open(CACHE_NAME);
+
+            // Cache local assets and CDN files in parallel
+            const precacheTasks = [
+                cache.addAll(PRECACHE_URLS).catch(err => ({
+                    error: err,
+                    type: 'precache',
+                })),
+                Promise.allSettled(
                     CDN_URLS.map(async (url) => {
-                        const response = await fetch(url);
-                        if (response.ok) {
-                            await cacheWithTimestamp(new Request(url), response);
+                        const cachedResponse = await cache.match(url);
+                        if (!cachedResponse) {
+                            const response = await fetch(url);
+                            if (response.ok) {
+                                await cacheWithTimestamp(new Request(url), response);
+                            }
                         }
                     })
-                );
-                
-                console.dir({
-                  message: 'Precache successful',
-                  type: 'log'
-                })
-            } catch (error) {
-                console.dir({
-                  message: `Precache failed: ${error?.message}`,
-                  error: error,
-                  type: 'error'
-                })
-            }
-        })
-    );
+                ).catch(err => ({
+                    error: err,
+                    type: 'cdn-cache',
+                }))
+            ];
+
+            const results = await Promise.all(precacheTasks);
+
+            // Log any errors (outside of the blocking logic)
+            results.forEach(result => {
+                if (result?.error) {
+                    console.dir({
+                        message: `Precache failed: ${result.error.message}`,
+                        error: result.error,
+                        type: result.type
+                    });
+                }
+            });
+        } catch (error) {
+            console.dir({
+                message: `Install event failed: ${error.message}`,
+                error: error,
+                type: 'error'
+            });
+        }
+    })());
+
     // Activate immediately
-    // eslint-disable-next-line no-restricted-globals
     self.skipWaiting();
 });
+
 
 // Fetch event with cache strategy
 // eslint-disable-next-line no-restricted-globals
@@ -204,20 +212,17 @@ self.addEventListener('fetch', event => {
                 
                 // Clone the response before using it
                 const responseToCache = networkResponse.clone();
-                
-                // Cache the fresh response
-                if (networkResponse.ok) {
-                    await cacheWithTimestamp(event.request, responseToCache);
-                }
-                
+                setTimeout(async () => {                    
+                    // Cache the fresh response
+                    if (networkResponse.ok) {
+                        await cacheWithTimestamp(event.request, responseToCache);
+                    }
+                }, 0);
+
                 return networkResponse;
             } catch (error) {
                 // Return expired cached response if network fails
                 if (cachedResponse) {
-                    console.dir({
-                      message: 'Returning expired cache due to network error',
-                      type: 'log'
-                    })
                     return cachedResponse;
                 }
                 
@@ -235,20 +240,22 @@ self.addEventListener('fetch', event => {
 // eslint-disable-next-line no-restricted-globals
 self.addEventListener('activate', event => {
     event.waitUntil(
-        Promise.all([
-            // Clean up old caches
-            caches.keys().then(cacheNames => {
-                return Promise.all(
+        (() => {
+            // Claim clients immediately
+            // eslint-disable-next-line no-restricted-globals, no-undef
+            clients.claim();
+
+            // Defer cache cleanup
+            setTimeout(async () => {
+                const cacheNames = await caches.keys();
+                await Promise.all(
                     cacheNames.map(cacheName => {
                         if (cacheName !== CACHE_NAME) {
                             return caches.delete(cacheName);
                         }
                     })
                 );
-            }),
-            // Claim all clients
-            // eslint-disable-next-line no-restricted-globals, no-undef
-            clients.claim()
-        ])
+            }, 2000); // Delay cleanup by 2 seconds
+        })()
     );
-}); 
+});
