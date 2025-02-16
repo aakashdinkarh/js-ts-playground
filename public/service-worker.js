@@ -54,7 +54,7 @@ const FILE_EXTENSIONS = {
 
 // Monaco Editor CDN base URL
 const MONACO_CDN_BASE = 'https://cdn.jsdelivr.net/npm/monaco-editor@0.43.0/min/vs';
-const CDN_BASE = 'https://cdn.jsdelivr.net/';
+const CDN_BASE = 'https://cdn';
 
 // Assets that should be cached immediately during installation
 const PRECACHE_URLS = [
@@ -73,11 +73,13 @@ const CDN_URLS = [
     `${MONACO_CDN_BASE}/editor/editor.main.css`,
     `${MONACO_CDN_BASE}/editor/editor.main.nls.js`,
     `${MONACO_CDN_BASE}/basic-languages/javascript/javascript.js`,
+    `${MONACO_CDN_BASE}/basic-languages/typescript/typescript.js`,
     `${MONACO_CDN_BASE}/language/typescript/tsMode.js`,
     `${MONACO_CDN_BASE}/base/worker/workerMain.js`,
     `${MONACO_CDN_BASE}/base/worker/workerMain.js`,
     `${MONACO_CDN_BASE}/base/common/worker/simpleWorker.nls.js`,
     `${MONACO_CDN_BASE}/language/typescript/tsWorker.js`,
+    'https://cdnjs.cloudflare.com/ajax/libs/typescript/5.7.3/typescript.min.js',
 ];
 
 // File extensions we want to cache
@@ -155,6 +157,9 @@ self.addEventListener('install', event => {
                 // Cache CDN files
                 await Promise.allSettled(
                     CDN_URLS.map(async (url) => {
+                        if (url === 'https://cdnjs.cloudflare.com/ajax/libs/typescript/5.7.3/typescript.min.js') {
+                            debugger;
+                        }
                         const response = await fetch(url);
                         if (response.ok) {
                             await cacheWithTimestamp(new Request(url), response);
@@ -181,6 +186,9 @@ self.addEventListener('fetch', event => {
 
     const url = event.request.url;
     if (!shouldCache(url)) return;
+    if (url === 'https://cdnjs.cloudflare.com/ajax/libs/typescript/5.7.3/typescript.min.js') {
+        debugger;
+    }
 
     event.respondWith(
         caches.match(event.request).then(async (cachedResponse) => {
