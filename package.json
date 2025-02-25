@@ -1,6 +1,7 @@
 {
   "name": "js-ts-playground",
   "version": "0.1.0",
+  "description": "A browser-based JavaScript/TypeScript playground with real-time code execution, TypeScript support, and Chrome DevTools-like console for experimenting with code. Features include live transpilation, detailed error handling, rich data type formatting, and offline capabilities.",
   "private": true,
   "homepage": "https://aakashdinkarh.github.io/js-ts-playground",
   "dependencies": {
