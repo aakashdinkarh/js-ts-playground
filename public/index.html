@@ -1,53 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="https://aakashdinkarh.github.io/static_assets/images/svgs/js_ts_compiler_logo.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="https://aakashdinkarh.github.io/static_assets/images/svgs/js_ts_compiler_logo.svg" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <title>JS TS Playground</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <script>
-      if (!window.location.hostname.includes('localhost') && 'serviceWorker' in navigator) {
-        window.addEventListener('load', async function() {
-          try {
-            // Get the base URL for GitHub Pages
-            const scope = window.location.pathname;
-            const swPath = `${scope}service-worker.js`.replace('//', '/');
-            
-            // Unregister any existing service workers first
-            // const registrations = await navigator.serviceWorker.getRegistrations();
-            // for(let registration of registrations) {
-            //   await registration.unregister();
-            // }
-            
-            // Register the new service worker
-            const registration = await navigator.serviceWorker.register(swPath, {
-              scope: scope
-            });
-          } catch (error) {
-            console.dir({
-              message: `ServiceWorker registration failed: ${error?.message}`,
-              error: error,
-              type: 'error'
-            })
-          }
-        });
-      } else {
-        console.dir({
-          message: 'Service workers are not supported in this browser',
-          type: 'log'
-        })
-      }
-    </script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="theme-color" content="#000000" />
+  <meta http-equiv="Content-Language" content="en" />
+  <meta name="author" content="Aakash Dinkar" />
+  <meta name="description"
+    content="A browser-based JavaScript/TypeScript playground with real-time execution, rich console output, and offline support." />
+  <meta name="keywords"
+    content="Aakash Dinkar,javascript, typescript, playground, code editor, online editor, web development, coding, development tools, IDE, interactive coding, js playground, ts playground, web IDE, browser IDE, code execution" />
+
+  <meta content="width" name="MobileOptimized" />
+  <meta content="true" name="HandheldFriendly" />
+  <meta name="x-dns-prefetch-control" content="on" />
+  <meta name="dcterms.rightsHolder" content="JS/TS Playground" />
+
+  <meta property="og:site_name" content="JS/TS Playground" />
+  <meta property="og:type" content="website" />
+
+  <meta property="og:title" content="JS/TS Playground - Interactive JavaScript & TypeScript Editor" />
+  <meta property="og:description"
+    content="Interactive JavaScript/TypeScript playground featuring real-time execution, DevTools-like console, and TypeScript transpilation support." />
+  <meta property="og:url" content="https://aakashdinkar.in/js-ts-playground/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="JS/TS Playground">
+
+  <link rel="icon" href="https://aakashdinkarh.github.io/static_assets/images/svgs/js_ts_compiler_logo.svg"
+    type="image/svg+xml" />
+  <link rel="apple-touch-icon"
+    href="https://aakashdinkarh.github.io/static_assets/images/svgs/js_ts_compiler_logo.svg" />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <title>JS/TS Playground</title>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <script>
+    if (!window.location.hostname.includes('localhost') && 'serviceWorker' in navigator) {
+      window.addEventListener('load', async function () {
+        try {
+          // Get the base URL for GitHub Pages
+          const scope = window.location.pathname;
+          const swPath = `${scope}service-worker.js`.replace('//', '/');
+
+          // Unregister any existing service workers first
+          // const registrations = await navigator.serviceWorker.getRegistrations();
+          // for(let registration of registrations) {
+          //   await registration.unregister();
+          // }
+
+          // Register the new service worker
+          const registration = await navigator.serviceWorker.register(swPath, {
+            scope: scope
+          });
+        } catch (error) {
+          console.dir({
+            message: `ServiceWorker registration failed: ${error?.message}`,
+            error: error,
+            type: 'error'
+          })
+        }
+      });
+    } else {
+      console.dir({
+        message: 'Service workers are not supported in this browser',
+        type: 'log'
+      })
+    }
+  </script>
+</body>
+
 </html>
