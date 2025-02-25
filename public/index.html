@@ -33,6 +33,26 @@
     href="https://aakashdinkarh.github.io/static_assets/images/svgs/js_ts_compiler_logo.svg" />
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
   <title>JS/TS Playground</title>
+
+	<!-- google crawling -->
+	<meta name="google-site-verification" content="DCYDep9j5s7cyTxOdQrS3FYiHIfOwh1Laa-tgcAdxR8" />
+	<script>
+		// Check if the current URL is the live website
+		if (window.location.hostname === 'aakashdinkar.in') {
+		  // Google tag (gtag.js)
+		  const script = document.createElement("script");
+		  script.src = "https://www.googletagmanager.com/gtag/js?id=G-B7Q8NCFNR6";
+		  script.async = true;
+		  document.head.appendChild(script);
+  
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag() {
+			dataLayer.push(arguments);
+		  }
+		  gtag("js", new Date());
+		  gtag("config", "G-B7Q8NCFNR6");
+		}
+	</script>
 </head>
 
 <body>
