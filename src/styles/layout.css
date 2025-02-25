@@ -32,17 +32,17 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 0;
-  border-bottom: 2px solid #007acc;
+  border-bottom: 2px solid var(--primary-color);
 }
 
 .header h1 {
   margin: 0;
-  color: #007acc;
+  color: var(--primary-color);
   font-size: 24px;
 }
 
 .github-link {
-  color: #007acc;
+  color: var(--primary-color);
   text-decoration: none;
   font-weight: 500;
 }
@@ -50,3 +50,9 @@
 .github-link:hover {
   text-decoration: underline;
 } 
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
