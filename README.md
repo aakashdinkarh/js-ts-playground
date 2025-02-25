@@ -83,13 +83,22 @@ The playground implements a sophisticated caching strategy that enables:
 
 - ⚡ Fast loading times with cached resources
 - 🔌 Offline functionality
-- 📦 Smart caching of Monaco editor resources
-- 🔄 Automatic cache updates when new versions are available
+- 📦 Smart caching of:
+  - Monaco editor and TypeScript resources
+  - Application assets and static files
+  - Common file types (JS, CSS, images, fonts)
+- 🔄 Intelligent cache management:
+  - Automatic background updates
+  - Non-blocking cache operations
+  - Graceful fallback to expired cache on network failure
 - 💾 Two-tier caching system:
-  - Short-term (2 hours) for application assets
-  - Long-term (7 days) for stable CDN resources
+  - Regular cache (24 hours) for application assets
+  - Long-term cache (7 days) for stable CDN resources
 
-The playground will work even without an internet connection once you've visited it at least once.
+The playground will work even without an internet connection once you've visited it at least once. The service worker ensures optimal performance by:
+- Pre-caching critical resources during installation
+- Using a stale-while-revalidate strategy for dynamic content
+- Managing cache cleanup and updates in the background
 
 ## Contributing
 
