@@ -20,7 +20,10 @@ export const App = () => {
   return (
     <div className="container">
       <header className="header">
-        <h1>{APP_CONSTANTS.TITLE}</h1>
+        <div className="header-title">
+          <img width="32" height="32" src="https://aakashdinkarh.github.io/static_assets/images/svgs/js_ts_compiler_logo.svg" alt="JS/TS Compiler Logo" />
+          <h1>{APP_CONSTANTS.TITLE}</h1>
+        </div>
         <a 
           href={APP_CONSTANTS.GITHUB_URL}
           target="_blank" 
