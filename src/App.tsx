@@ -6,7 +6,7 @@ import { APP_CONSTANTS, LANGUAGES, Language } from '@constants/app';
 import { STORAGE_KEYS } from '@constants/storage';
 import '@styles/app.css';
 
-const DEFAULT_LANGUAGE: Language = LANGUAGES.TYPESCRIPT;
+const DEFAULT_LANGUAGE: Language = LANGUAGES.JAVASCRIPT;
 
 export const App = () => {
   const [language, setLanguage] = useState<Language>(() => {
