@@ -49,6 +49,7 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
       <label className="auto-run-toggle">
         <input
           type="checkbox"
+          name="auto-run"
           checked={autoRun}
           onChange={(e) => setAutoRun(e.target.checked)}
         />
