@@ -7,7 +7,7 @@ import {
 } from '@constants/promise';
 
 interface ConsolePromiseProps {
-  value: Promise<any>;
+  value: Promise<unknown>;
   type: ConsoleOutputProps['type'];
 }
 
@@ -18,7 +18,7 @@ const formatError = (error: unknown): string =>
 
 export const ConsolePromise: React.FC<ConsolePromiseProps> = ({ value, type }) => {
   const [promiseState, setPromiseState] = useState<PromiseState>(PROMISE_STATES.PENDING);
-  const [promiseResult, setPromiseResult] = useState<any>(undefined);
+  const [promiseResult, setPromiseResult] = useState<unknown>(undefined);
 
   useEffect(() => {
     let mounted = true;

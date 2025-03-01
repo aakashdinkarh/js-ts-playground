@@ -13,6 +13,9 @@
     "@craco/craco": "7.1.0",
     "@types/react": "19.0.8",
     "@types/react-dom": "19.0.3",
+    "@typescript-eslint/eslint-plugin": "5.5.0",
+    "@typescript-eslint/parser": "5.5.0",
+    "eslint": "8.0.0",
     "gh-pages": "6.3.0",
     "husky": "8.0.0",
     "lint-staged": "15.0.0",
@@ -23,21 +26,29 @@
     "build": "npm run type-check && craco build",
     "type-check": "tsc --noEmit",
     "type-check:watch": "tsc --noEmit --watch",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "pre-push": "npm run build"
   },
   "lint-staged": {
-    "*.{ts,tsx}": ["tsc --noEmit"]
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ]
   },
   "eslintConfig": {
     "extends": [
-      "react-app"
+      "react-app",
+      "plugin:@typescript-eslint/recommended"
     ],
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"],
     "rules": {
       "no-eval": "off",
-      "no-new-func": "off"
+      "no-new-func": "off",
+      "@typescript-eslint/no-var-requires": "off"
     }
   },
   "browserslist": {

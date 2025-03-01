@@ -1,4 +1,4 @@
-export const formatConsoleValue = (value: any): string => {
+export const formatConsoleValue = (value: unknown): string => {
   if (typeof value === 'object' && value !== null) {
     return JSON.stringify(value, null, 2);
   }
@@ -9,7 +9,7 @@ export const formatTimerDuration = (duration: number): string => {
   return `${duration.toFixed(2)}ms`;
 };
 
-export const formatArrayPreview = (arr: any[], depth: number = 0): string => {
+export const formatArrayPreview = (arr: unknown[], depth = 0): string => {
   return arr.map(item => {
     if (Array.isArray(item)) {
       if (depth >= 1) {

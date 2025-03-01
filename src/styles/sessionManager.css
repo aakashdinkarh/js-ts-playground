@@ -1,0 +1,110 @@
+.session-manager {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.session-tabs {
+  display: flex;
+  gap: 4px;
+  height: 36px;
+  position: relative;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.session-tab {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  width: 156px;
+  background: none;
+  border: none;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.session-tab div {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+
+.session-tab::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  width: 2px;
+  height: 70%;
+  background: var(--tab-active-bg);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.session-tab:not(.active, :hover, :last-of-type, :has(+ .active, +:hover))::after {
+  opacity: 1;
+}
+
+.session-tab:hover {
+  background: var(--tab-hover-bg);
+}
+
+.session-tab.active {
+  background: var(--tab-active-bg)
+}
+
+.session-tab button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  transition: opacity 0.2s, background-color 0.2s;
+}
+
+.session-tab button:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.session-title-input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius);
+  padding: 6px;
+  outline: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.session-title-input[value=""] {
+  border-color: var(--console-error);
+}
+
+.new-session-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  padding: 4px 8px;
+  align-self: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  margin-left: 4px;
+}
+
+.new-session-btn:hover {
+  background: var(--tab-hover-bg);
+}

@@ -6,7 +6,7 @@ import { __handleError } from '@utils/errorHandlerOverrides';
 import { loadTypeScriptCompiler } from '@utils/typescript-loader';
 import { checkEditorErrors } from '@utils/monaco';
 
-export const TypeScriptEditor: React.FC = () => {
+export const TypeScriptEditor = () => {
   loadTypeScriptCompiler();
 
   const handleCodeExecution: EditorBaseProps['handleCodeExecution'] = async (code) => {

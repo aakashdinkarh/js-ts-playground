@@ -9,6 +9,11 @@
   --border-dark: #444;
   --border-darker: #333;
   
+  /* Tab Colors */
+  --tab-bg: #f0f0f0;
+  --tab-active-bg: #ccc;
+  --tab-hover-bg: #f0f0f0;
+  
   /* Console Colors */
   --console-warn: #ffbb33;
   --console-error: #ff4444;
@@ -34,4 +39,4 @@
   
   /* Border Radius */
   --border-radius: 4px;
-} 
+}

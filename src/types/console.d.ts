@@ -7,7 +7,7 @@ export type ConsoleMethodTypeExcludingTable = Exclude<ConsoleMethodType, typeof 
 
 export interface ConsoleMessage {
   type: ConsoleMethodType;
-  value: any[];
+  value: unknown[];
 }
 
 export interface TimeData {
@@ -15,13 +15,13 @@ export interface TimeData {
 }
 
 export interface ConsoleOutputProps {
-  value: any;
+  value: unknown;
   depth?: number;
   type?: ConsoleMethodType;
-  seen?: WeakMap<any, string>;
+  seen?: WeakMap<unknown, string>;
 }
 
 export interface ConsoleOutputContainerProps {
   output: ConsoleMessage[];
   setOutput: SetOutputFunction;
-} 
+}

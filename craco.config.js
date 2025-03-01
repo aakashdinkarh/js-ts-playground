@@ -8,7 +8,8 @@ module.exports = {
       '@constants': path.resolve(__dirname, 'src/constants'),
       '@styles': path.resolve(__dirname, 'src/styles'),
       '@utils': path.resolve(__dirname, 'src/utils'),
-      '@hooks': path.resolve(__dirname, 'src/hooks')
+      '@hooks': path.resolve(__dirname, 'src/hooks'),
+      '@contexts': path.resolve(__dirname, 'src/contexts')
     },
   },
   eslint: {
@@ -32,4 +33,4 @@ module.exports = {
       return middlewares;
     }
   }
-}; 
+};

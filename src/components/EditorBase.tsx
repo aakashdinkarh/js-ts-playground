@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import Editor, { Monaco } from '@monaco-editor/react';
 import * as monacoEditor from 'monaco-editor';
 import { EditorControls } from '@components/EditorControls';
@@ -10,43 +10,42 @@ import { EditorBaseProps } from 'types/editor';
 import { overrideConsoleMethods } from '@utils/console/override';
 import { SHORTCUTS } from '@constants/shortcuts';
 import { useWindowResize } from '@hooks/useWindowResize';
+import { useSession } from '@contexts/SessionContext';
+import { ConsoleMessage } from 'types/console';
 
-export const EditorBase: React.FC<EditorBaseProps> = ({ language, handleCodeExecution }) => {
-  const [output, setOutput] = useState<any[]>([]);
+export const EditorBase = ({ language, handleCodeExecution }: EditorBaseProps) => {
+  const [output, setOutput] = useState<ConsoleMessage[]>([]);
   const { editorKey } = useWindowResize();
   const [autoRun, setAutoRun] = useState<boolean>(() => {
     return localStorage.getItem(STORAGE_KEYS.AUTO_RUN) !== 'false';
   });
-  const [editorContent, setEditorContent] = useState<string>(() => {
-    return localStorage.getItem(STORAGE_KEYS.EDITOR_CONTENT(language)) || APP_CONSTANTS.DEFAULT_CODE;
-  });
+  const { activeSession, updateCode } = useSession();
+  const isConsoleMethodsOverridden = useRef<boolean>(false);
 
   const handleRunCode = useCallback((editor: monacoEditor.editor.IStandaloneCodeEditor) => {
     const code = editor.getValue();
-    setEditorContent(code);
+    activeSession && updateCode(code);
     setOutput([]);
     handleCodeExecution(code);
-  }, [handleCodeExecution]);
+  }, [handleCodeExecution, activeSession, updateCode]);
 
   const debouncedSetEditorContent = useDebounce((value: string, editor: monacoEditor.editor.IStandaloneCodeEditor) => {
-    setEditorContent(value);
     if (autoRun) {
       handleRunCode(editor);
     }
   }, APP_CONSTANTS.EDITOR_CONTENT_DEBOUNCE_DELAY);
 
-  overrideConsoleMethods(setOutput);
+  if (!isConsoleMethodsOverridden.current) {
+    overrideConsoleMethods(setOutput);
+    isConsoleMethodsOverridden.current = true;
+  }
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEYS.AUTO_RUN, String(autoRun));
   }, [autoRun]);
 
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.EDITOR_CONTENT(language), editorContent);
-  }, [editorContent, language]);
-
   const handleEditorMount = (editor: monacoEditor.editor.IStandaloneCodeEditor, monaco: Monaco) => {
-    (window as any).editor = editor;
+    window.editor = editor;
 
     // Add command for running code
     editor.addCommand(
@@ -62,7 +61,7 @@ export const EditorBase: React.FC<EditorBaseProps> = ({ language, handleCodeExec
     <div className="editor-output-container">
       <div className="editor-container">
         <EditorControls
-          onRun={() => handleRunCode((window as any).editor)}
+          onRun={() => handleRunCode(window.editor)}
           autoRun={autoRun}
           setAutoRun={setAutoRun}
         />
@@ -70,7 +69,7 @@ export const EditorBase: React.FC<EditorBaseProps> = ({ language, handleCodeExec
         <Editor
           key={editorKey}
           defaultLanguage={language}
-          value={editorContent}
+          value={activeSession?.code || APP_CONSTANTS.DEFAULT_CODE}
           theme="vs-dark"
           options={{
             minimap: { enabled: false },
@@ -78,7 +77,7 @@ export const EditorBase: React.FC<EditorBaseProps> = ({ language, handleCodeExec
             automaticLayout: true,
           }}
           onChange={(value) => {
-            debouncedSetEditorContent(value || '', (window as any).editor);
+            debouncedSetEditorContent(value || '', window.editor);
           }}
           onMount={handleEditorMount}
         />
