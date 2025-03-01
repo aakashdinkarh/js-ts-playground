@@ -19,3 +19,5 @@ export const CDN_URLS = {
 } as const;
 
 export type CDNUrl = typeof CDN_URLS[keyof typeof CDN_URLS];
+
+export const MAX_SESSION_TITLE_LENGTH = 20;

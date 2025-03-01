@@ -77,8 +77,6 @@ export const useCodeSessions = () => {
     return sessions.find(session => session.id === activeSessionId) || null;
   };
 
-  console.dir(`activeSession: ${getActiveSession()}, activeSessionId: ${activeSessionId}`)
-
   return {
     sessions,
     activeSessionId,
