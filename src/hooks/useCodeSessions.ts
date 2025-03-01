@@ -29,16 +29,29 @@ export const useCodeSessions = () => {
           throw new Error('No sessions found');
         }
 
-        // Load code for each session from IndexedDB
-        const loadedSessions = await Promise.all(
+        // Load code for each session from IndexedDB using allSettled
+        const results = await Promise.allSettled(
           parsedMetadata.map(async (metadata) => {
-            const code = await getCode(metadata.id) || APP_CONSTANTS.DEFAULT_CODE;
+            const code = await getCode(metadata.id);
             return {
               ...metadata,
-              code,
+              code: code || APP_CONSTANTS.DEFAULT_CODE,
             };
           })
         );
+
+        // Filter out failed loads and use default code for them
+        const loadedSessions = results.map((result, index) => {
+          if (result.status === 'fulfilled') {
+            return result.value;
+          }
+          // If loading failed, use the metadata with default code
+          console.warn(`Failed to load code for session '${parsedMetadata[index].title}':`, result.reason);
+          return {
+            ...parsedMetadata[index],
+            code: APP_CONSTANTS.DEFAULT_CODE,
+          };
+        });
 
         setSessions(loadedSessions);
         setActiveSessionId(loadedSessions[0].id);
