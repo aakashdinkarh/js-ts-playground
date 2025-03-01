@@ -11,9 +11,10 @@ import { overrideConsoleMethods } from '@utils/console/override';
 import { SHORTCUTS } from '@constants/shortcuts';
 import { useWindowResize } from '@hooks/useWindowResize';
 import { useSession } from '@contexts/SessionContext';
+import { ConsoleMessage } from 'types/console';
 
 export const EditorBase = ({ language, handleCodeExecution }: EditorBaseProps) => {
-  const [output, setOutput] = useState<any[]>([]);
+  const [output, setOutput] = useState<ConsoleMessage[]>([]);
   const { editorKey } = useWindowResize();
   const [autoRun, setAutoRun] = useState<boolean>(() => {
     return localStorage.getItem(STORAGE_KEYS.AUTO_RUN) !== 'false';
@@ -44,7 +45,7 @@ export const EditorBase = ({ language, handleCodeExecution }: EditorBaseProps) =
   }, [autoRun]);
 
   const handleEditorMount = (editor: monacoEditor.editor.IStandaloneCodeEditor, monaco: Monaco) => {
-    (window as any).editor = editor;
+    window.editor = editor;
 
     // Add command for running code
     editor.addCommand(
@@ -60,7 +61,7 @@ export const EditorBase = ({ language, handleCodeExecution }: EditorBaseProps) =
     <div className="editor-output-container">
       <div className="editor-container">
         <EditorControls
-          onRun={() => handleRunCode((window as any).editor)}
+          onRun={() => handleRunCode(window.editor)}
           autoRun={autoRun}
           setAutoRun={setAutoRun}
         />
@@ -76,7 +77,7 @@ export const EditorBase = ({ language, handleCodeExecution }: EditorBaseProps) =
             automaticLayout: true,
           }}
           onChange={(value) => {
-            debouncedSetEditorContent(value || '', (window as any).editor);
+            debouncedSetEditorContent(value || '', window.editor);
           }}
           onMount={handleEditorMount}
         />

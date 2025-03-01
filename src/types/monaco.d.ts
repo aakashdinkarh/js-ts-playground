@@ -10,13 +10,13 @@ declare namespace Monaco {
 
   interface Editor {
     getModel: () => {
-      uri: any;
+      uri: monaco.Uri;
     };
     getValue: () => string;
   }
 
   interface MonacoEditor {
-    getModelMarkers: (filter: { resource: any }) => IMarker[];
+    getModelMarkers: (filter: { resource: monaco.Uri }) => IMarker[];
     MarkerSeverity: {
       Error: number;
       Warning: number;
@@ -31,7 +31,7 @@ declare global {
     monaco: {
       editor: Monaco.MonacoEditor;
     };
-    editor: Monaco.Editor;
+    editor: monacoEditor.editor.IStandaloneCodeEditor;
   }
 }
 

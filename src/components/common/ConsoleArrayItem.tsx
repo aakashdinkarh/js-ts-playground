@@ -7,7 +7,7 @@ import { ConsolePrimitive } from '@common/ConsolePrimitive';
 import { formatArrayPreview } from '@utils/console/formatters';
 
 interface ConsoleArrayItemProps {
-  val: any;
+  val: unknown;
   idx: number;
   type: ConsoleOutputProps['type'];
 }
@@ -55,4 +55,4 @@ export const ConsoleArrayItem: React.FC<ConsoleArrayItemProps> = ({ val, idx, ty
       <ConsolePrimitive value={val} type={type} />
     </React.Fragment>
   );
-}; 
+};
