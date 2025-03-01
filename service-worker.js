@@ -50,6 +50,7 @@ const FILE_EXTENSIONS = {
 // Monaco Editor CDN base URL
 const MONACO_CDN_BASE = 'https://cdn.jsdelivr.net/npm/monaco-editor@0.43.0/min/vs';
 const CDN_BASE = 'https://cdn';
+const STATIC_ASSETS_BASE = 'https://aakashdinkarh.github.io/static_assets/images';
 
 // Assets that should be cached immediately during installation
 const PRECACHE_URLS = [
@@ -80,10 +81,18 @@ function isCdnUrl(url) {
     return url.startsWith(CDN_BASE);
 }
 
+// Helper function to check if a URL is from our static assets
+function isStaticAsset(url) {
+    return url.startsWith(STATIC_ASSETS_BASE);
+}
+
 // Helper function to check if a request should be cached
 function shouldCache(url) {
     // Always cache if it's in our CDN list
     if (isCdnUrl(url)) return true;
+
+    // Always cache if it's a static asset
+    if (isStaticAsset(url)) return true;
 
     // Don't cache chrome-extension requests
     if (url.startsWith(URL_SCHEMES.CHROME_EXTENSION)) return false;
@@ -118,7 +127,7 @@ async function cacheWithTimestamp(request, response) {
     timestampedResponse.headers.set(HEADERS.TIMESTAMP, timestamp);
     timestampedResponse.headers.set(
         HEADERS.CACHE_TYPE, 
-        isCdnUrl(request.url) ? CACHE_TYPES.LONG : CACHE_TYPES.REGULAR
+        isCdnUrl(request.url) || isStaticAsset(request.url) ? CACHE_TYPES.LONG : CACHE_TYPES.REGULAR
     );
     
     await cache.put(request, timestampedResponse);
