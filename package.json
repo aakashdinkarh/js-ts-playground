@@ -30,7 +30,8 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "pre-push": "npm run build"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
