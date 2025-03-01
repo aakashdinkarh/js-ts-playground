@@ -14,9 +14,9 @@ export interface SessionContextType {
   activeSession: CodeSession | null;
   activeSessionId: string | null;
   setActiveSessionId: (id: CodeSession['id']) => void;
-  createSession: () => void;
-  deleteSession: (id: CodeSession['id']) => void;
-  updateSession: (id: CodeSession['id'], updates: Partial<CodeSession>) => void;
-  updateCode: (code: string) => void;
-  updateLanguage: (language: Language) => void;
+  createSession: () => Promise<CodeSession>;
+  deleteSession: (id: CodeSession['id']) => Promise<void>;
+  updateSession: (id: CodeSession['id'], updates: Partial<CodeSession>) => Promise<void>;
+  updateCode: (code: string) => Promise<void>;
+  updateLanguage: (language: Language) => Promise<void>;
 }
