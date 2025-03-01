@@ -26,15 +26,15 @@ export const SessionProvider = ({ children }: React.PropsWithChildren) => {
 
   const activeSession = getActiveSession();
 
-  const updateCode = useCallback((code: string) => {
+  const updateCode = useCallback(async (code: string) => {
     if (activeSession) {
-      updateSession(activeSession.id, { code });
+      await updateSession(activeSession.id, { code });
     }
   }, [activeSession, updateSession]);
 
-  const updateLanguage = useCallback((language: Language) => {
+  const updateLanguage = useCallback(async (language: Language) => {
     if (activeSession) {
-      updateSession(activeSession.id, { language });
+      await updateSession(activeSession.id, { language });
     }
   }, [activeSession, updateSession]);
 

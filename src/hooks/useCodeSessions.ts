@@ -1,6 +1,7 @@
 import { APP_CONSTANTS, LANGUAGES } from '@constants/app';
 import { useState, useEffect } from 'react';
 import { CodeSession } from 'types/session';
+import { saveCode, getCode, deleteCode } from '@utils/indexedDB';
 
 export const MAX_SESSIONS = 10;
 const STORAGE_KEY = 'code-sessions';
@@ -9,36 +10,63 @@ export const useCodeSessions = () => {
   const [sessions, setSessions] = useState<CodeSession[]>([]);
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
 
-  // Load sessions from localStorage on mount
+  // Load sessions from localStorage and IndexedDB on mount
   useEffect(() => {
-    try {
-      const storedSessions = localStorage.getItem(STORAGE_KEY);
-      if (!storedSessions) {
-        throw new Error('No sessions found');
-      }
+    const loadSessions = async () => {
+      const startTime = performance.now();
+      try {
+        const storedSessions = localStorage.getItem(STORAGE_KEY);
+        if (!storedSessions) {
+          throw new Error('No sessions found');
+        }
 
-      const parsedSessions = JSON.parse(storedSessions);
-      if (!Array.isArray(parsedSessions)) {
-        throw new Error('Invalid sessions data');
-      }
+        const parsedMetadata = JSON.parse(storedSessions) as Omit<CodeSession, 'code'>[];
+        if (!Array.isArray(parsedMetadata)) {
+          throw new Error('Invalid sessions data');
+        }
 
-      if (parsedSessions.length === 0) {
-        throw new Error('No sessions found');
-      }
+        if (parsedMetadata.length === 0) {
+          throw new Error('No sessions found');
+        }
 
-      setSessions(parsedSessions);
-      setActiveSessionId(parsedSessions[0].id);
-    } catch (error) {
-      createSession();
-    }
+        // Load code for each session from IndexedDB
+        const loadedSessions = await Promise.all(
+          parsedMetadata.map(async (metadata) => {
+            const code = await getCode(metadata.id) || APP_CONSTANTS.DEFAULT_CODE;
+            return {
+              ...metadata,
+              code,
+            };
+          })
+        );
+
+        setSessions(loadedSessions);
+        setActiveSessionId(loadedSessions[0].id);
+        console.dir(`Loading sessions took ${performance.now() - startTime}ms`);
+      } catch (error) {
+        createSession();
+      }
+    };
+
+    loadSessions();
   }, []);
 
-  // Save sessions to localStorage whenever they change
+  // Save session metadata to localStorage whenever they change
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions));
+    // Differ the saving to the next tick to avoid blocking the main thread
+    setTimeout(() => {
+      const metadata = sessions.map(({ id, title, language, createdAt, lastModified }) => ({
+        id,
+        title,
+        language,
+        createdAt,
+        lastModified,
+    }));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(metadata));
+    }, 0);
   }, [sessions]);
 
-  const createSession = () => {
+  const createSession = async () => {
     if (sessions.length >= MAX_SESSIONS) {
       throw new Error('Maximum session limit reached');
     }
@@ -52,12 +80,20 @@ export const useCodeSessions = () => {
       lastModified: Date.now(),
     };
 
+    // Save code to IndexedDB, No need to await
+    saveCode(newSession.id, newSession.code);
+
     setSessions(prev => [newSession, ...prev]);
     setActiveSessionId(newSession.id);
     return newSession;
   };
 
-  const updateSession = (id: string, updates: Partial<CodeSession>) => {
+  const updateSession = async (id: string, updates: Partial<CodeSession>) => {
+    // If code is being updated, save it to IndexedDB
+    if (updates.code) {
+      saveCode(id, updates.code);
+    }
+
     setSessions(prev => prev.map(session => 
       session.id === id 
         ? { ...session, ...updates, lastModified: Date.now() }
@@ -65,7 +101,10 @@ export const useCodeSessions = () => {
     ));
   };
 
-  const deleteSession = (id: string) => {
+  const deleteSession = async (id: string) => {
+    // Delete code from IndexedDB
+    deleteCode(id);
+
     setSessions(prev => prev.filter(session => session.id !== id));
     if (activeSessionId === id) {
       const remainingSessions = sessions.filter(session => session.id !== id);
