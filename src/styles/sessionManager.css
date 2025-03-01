@@ -16,13 +16,21 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 8px;
-  width: 140px;
+  width: 156px;
   background: none;
   border: none;
   border-radius: 8px 8px 0 0;
   cursor: pointer;
   transition: background-color 0.2s;
   position: relative;
+}
+
+.session-tab div {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
 }
 
 .session-tab::after {
@@ -64,6 +72,22 @@
 .session-tab button:hover {
   opacity: 1;
   background: rgba(0, 0, 0, 0.1);
+}
+
+.session-title-input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius);
+  padding: 6px;
+  outline: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.session-title-input[value=""] {
+  border-color: var(--console-error);
 }
 
 .new-session-btn {
