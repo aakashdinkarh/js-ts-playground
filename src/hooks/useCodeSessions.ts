@@ -1,5 +1,5 @@
 import { APP_CONSTANTS, LANGUAGES } from '@constants/app';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { CodeSession } from 'types/session';
 import { saveCode, getCode, deleteCode } from '@utils/indexedDB';
 
@@ -9,64 +9,85 @@ const STORAGE_KEY = 'code-sessions';
 export const useCodeSessions = () => {
   const [sessions, setSessions] = useState<CodeSession[]>([]);
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
+  const hasLoadedCodes = useRef(false);
 
-  // Load sessions from localStorage and IndexedDB on mount
+  // Load session metadata from localStorage immediately
   useEffect(() => {
-    const loadSessions = async () => {
-      const startTime = performance.now();
+    try {
+      const storedSessions = localStorage.getItem(STORAGE_KEY);
+      if (!storedSessions) {
+        throw new Error('No sessions found');
+      }
+
+      const parsedMetadata = JSON.parse(storedSessions) as Omit<CodeSession, 'code'>[];
+      if (!Array.isArray(parsedMetadata)) {
+        throw new Error('Invalid sessions data');
+      }
+
+      if (parsedMetadata.length === 0) {
+        throw new Error('No sessions found');
+      }
+
+      // Set initial sessions with default code
+      const initialSessions = parsedMetadata.map(metadata => ({
+        ...metadata,
+        code: APP_CONSTANTS.DEFAULT_CODE,
+      }));
+      setSessions(initialSessions);
+      setActiveSessionId(initialSessions[0].id);
+    } catch (error) {
+      createSession();
+    }
+  }, []);
+
+  // Load actual code content from IndexedDB after metadata is loaded
+  useEffect(() => {
+    // Skip if no sessions or if we've already loaded codes
+    if (sessions.length === 0 || hasLoadedCodes.current) return;
+
+    const loadCodes = async () => {
+      hasLoadedCodes.current = true;
+
       try {
-        const storedSessions = localStorage.getItem(STORAGE_KEY);
-        if (!storedSessions) {
-          throw new Error('No sessions found');
-        }
-
-        const parsedMetadata = JSON.parse(storedSessions) as Omit<CodeSession, 'code'>[];
-        if (!Array.isArray(parsedMetadata)) {
-          throw new Error('Invalid sessions data');
-        }
-
-        if (parsedMetadata.length === 0) {
-          throw new Error('No sessions found');
-        }
-
-        // Load code for each session from IndexedDB using allSettled
         const results = await Promise.allSettled(
-          parsedMetadata.map(async (metadata) => {
-            const code = await getCode(metadata.id);
+          sessions.map(async (session) => {
+            const code = await getCode(session.id);
             return {
-              ...metadata,
+              sessionId: session.id,
               code: code || APP_CONSTANTS.DEFAULT_CODE,
             };
           })
         );
 
-        // Filter out failed loads and use default code for them
-        const loadedSessions = results.map((result, index) => {
-          if (result.status === 'fulfilled') {
-            return result.value;
-          }
-          // If loading failed, use the metadata with default code
-          console.warn(`Failed to load code for session '${parsedMetadata[index].title}':`, result.reason);
-          return {
-            ...parsedMetadata[index],
-            code: APP_CONSTANTS.DEFAULT_CODE,
-          };
+        setSessions(prevSessions => {
+          const updatedSessions = [...prevSessions];
+          results.forEach((result, index) => {
+            if (result.status === 'fulfilled') {
+              const sessionIndex = updatedSessions.findIndex(
+                s => s.id === result.value.sessionId
+              );
+              if (sessionIndex !== -1) {
+                updatedSessions[sessionIndex] = {
+                  ...updatedSessions[sessionIndex],
+                  code: result.value.code,
+                };
+              }
+            } else {
+              console.warn(`Failed to load code for session '${sessions[index].title}':`, result.reason);
+            }
+          });
+          return updatedSessions;
         });
-
-        setSessions(loadedSessions);
-        setActiveSessionId(loadedSessions[0].id);
-        console.dir(`Loading sessions took ${performance.now() - startTime}ms`);
-      } catch (error) {
-        createSession();
-      }
+      } catch {}
     };
 
-    loadSessions();
-  }, []);
+    
+    loadCodes();
+  }, [sessions.length]); // Include sessions as dependency but use ref to prevent reloads
 
   // Save session metadata to localStorage whenever they change
   useEffect(() => {
-    // Differ the saving to the next tick to avoid blocking the main thread
+    // Defer the saving to the next tick to avoid blocking the main thread
     setTimeout(() => {
       const metadata = sessions.map(({ id, title, language, createdAt, lastModified }) => ({
         id,
@@ -74,7 +95,7 @@ export const useCodeSessions = () => {
         language,
         createdAt,
         lastModified,
-    }));
+      }));
       localStorage.setItem(STORAGE_KEY, JSON.stringify(metadata));
     }, 0);
   }, [sessions]);
