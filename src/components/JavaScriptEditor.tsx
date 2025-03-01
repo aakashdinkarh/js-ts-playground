@@ -4,7 +4,7 @@ import { EditorBaseProps } from 'types/editor';
 import { LANGUAGES } from '@constants/app';
 import { __handleError } from '@utils/errorHandlerOverrides';
 
-export const JavaScriptEditor: React.FC = () => {
+export const JavaScriptEditor = () => {
   const handleCodeExecution: EditorBaseProps['handleCodeExecution'] = async (code) => {
     try {
       eval(code);

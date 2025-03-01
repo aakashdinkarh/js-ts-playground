@@ -1,21 +1,15 @@
-import { useState, useEffect } from 'react';
 import { Tab } from '@components/common/Tab';
 import { JavaScriptEditor } from '@components/JavaScriptEditor';
 import { TypeScriptEditor } from '@components/TypeScriptEditor';
-import { APP_CONSTANTS, LANGUAGES, Language } from '@constants/app';
-import { STORAGE_KEYS } from '@constants/storage';
+import { SessionManager } from '@components/SessionManager';
+import { APP_CONSTANTS, LANGUAGES } from '@constants/app';
+import { useSession } from '@contexts/SessionContext';
 import '@styles/app.css';
 
-const DEFAULT_LANGUAGE: Language = LANGUAGES.JAVASCRIPT;
-
 export const App = () => {
-  const [language, setLanguage] = useState<Language>(() => {
-    return (localStorage.getItem(STORAGE_KEYS.SELECTED_LANGUAGE) as Language) || DEFAULT_LANGUAGE;
-  });
+  const { activeSession, updateLanguage } = useSession();
 
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.SELECTED_LANGUAGE, language);
-  }, [language]);
+  const currentLanguage = activeSession?.language || LANGUAGES.JAVASCRIPT;
 
   return (
     <div className="container">
@@ -32,20 +26,21 @@ export const App = () => {
         >
           GitHub
         </a>
-      </header>
-      <div className="tabs">
-        <Tab 
-          label="JavaScript"
-          isActive={language === LANGUAGES.JAVASCRIPT}
-          onClick={() => setLanguage(LANGUAGES.JAVASCRIPT)}
-        />
-        <Tab 
-          label="TypeScript"
-          isActive={language === LANGUAGES.TYPESCRIPT}
-          onClick={() => setLanguage(LANGUAGES.TYPESCRIPT)}
-        />
-      </div>
-      {language === LANGUAGES.JAVASCRIPT ? <JavaScriptEditor /> : <TypeScriptEditor />}
+    </header>
+    <SessionManager />
+    <div className="tabs">
+      <Tab 
+        label="JavaScript"
+        isActive={currentLanguage === LANGUAGES.JAVASCRIPT}
+        onClick={() => updateLanguage(LANGUAGES.JAVASCRIPT)}
+      />
+      <Tab 
+        label="TypeScript"
+        isActive={currentLanguage === LANGUAGES.TYPESCRIPT}
+        onClick={() => updateLanguage(LANGUAGES.TYPESCRIPT)}
+      />
+    </div>
+      {currentLanguage === LANGUAGES.JAVASCRIPT ? <JavaScriptEditor /> : <TypeScriptEditor />}
     </div>
   );
 }

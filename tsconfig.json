@@ -15,9 +15,10 @@
       "@constants/*": ["constants/*"],
       "@styles/*": ["styles/*"],
       "@utils/*": ["utils/*"],
-      "@hooks/*": ["hooks/*"]
+      "@hooks/*": ["hooks/*"],
+      "@contexts/*": ["contexts/*"]
     }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "build", "dist", "scripts", "acceptance-tests", "webpack", "jest"]
-} 
+}

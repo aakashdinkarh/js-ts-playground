@@ -35,10 +35,10 @@
   border: none;
   border-radius: var(--border-radius);
   cursor: pointer;
-  background-color: #f0f0f0;
+  background: var(--tab-bg);
 }
 
 .tab-btn.active {
   background-color: var(--primary-color);
   color: white;
-} 
+}
