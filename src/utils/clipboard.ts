@@ -9,7 +9,7 @@ export const copyToClipboard = async (value: any) => {
 
 interface ShareResult {
   success: boolean;
-  message: SHARE_BUTTON_TEXT.COPIED | SHARE_BUTTON_TEXT.FAILED;
+  message: SHARE_BUTTON_TEXT.SUCCESS | SHARE_BUTTON_TEXT.FAILED;
 }
 
 export const copyShareableLink = async (id: string): Promise<ShareResult> => {
@@ -19,11 +19,11 @@ export const copyShareableLink = async (id: string): Promise<ShareResult> => {
     shareableUrl.searchParams.set('id', encodeURIComponent(id));
 
     // Copy the URL to clipboard
-    await copyToClipboard(shareableUrl);
+    await copyToClipboard(shareableUrl.toString());
 
     return {
       success: true,
-      message: SHARE_BUTTON_TEXT.COPIED,
+      message: SHARE_BUTTON_TEXT.SUCCESS,
     };
   } catch (error) {
     return {

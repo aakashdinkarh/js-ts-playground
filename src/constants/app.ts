@@ -2,7 +2,7 @@ export const APP_CONSTANTS = {
   TITLE: 'JS/TS Playground',
   GITHUB_URL: 'https://github.com/aakashdinkarh/js-ts-playground',
   DEFAULT_CODE: "// Write your code here\nconsole.log('Hello, World!');",
-  GETTING_CODE_MESSAGE: '// Getting code for you...',
+  GETTING_CODE_MESSAGE: '// Getting code for you... Please wait...',
   FETCHING_FAILED_CODE_MESSAGE: '// Failed to fetch code, please try again',
   EDITOR_CONTENT_DEBOUNCE_DELAY: 2000,
   DIMENSION_CHANGE_THRESHOLD: 50,
