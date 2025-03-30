@@ -1,14 +1,11 @@
+import { APP_CONSTANTS } from '@constants/app';
 import type { CodeSessionResponse } from 'types/session';
-
-const CENTRAL_SERVER_BASE_URL = 'https://central-server-app.vercel.app';
-
-const codeSessionApiUrl = `${CENTRAL_SERVER_BASE_URL}/api/code`;
 
 const makeApiRequest = async (
   method: string,
   body: Record<string, unknown>
 ) => {
-  const response = await fetch(codeSessionApiUrl, {
+  const response = await fetch(APP_CONSTANTS.CODE_SESSION_API_URL, {
     method,
     headers: {
       'Content-Type': 'application/json',
@@ -38,9 +35,16 @@ const getCodeSessionData = async (sessionId: string) => {
     return {
       error: null,
       id: data.id,
+      code: data.code,
+      language: data.language,
+      createdAt: new Date(data.createdAt).getTime(),
+      lastModified: new Date(data.updatedAt).getTime(),
     };
   } catch (error) {
-    return handleApiError(error);
+    return {
+      ...handleApiError(error),
+      code: APP_CONSTANTS.FETCHING_FAILED_CODE_MESSAGE,
+    };
   }
 };
 
