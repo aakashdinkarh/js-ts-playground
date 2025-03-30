@@ -1,17 +1,18 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import Editor, { Monaco } from '@monaco-editor/react';
+import type { Monaco } from '@monaco-editor/react';
+import Editor from '@monaco-editor/react';
 import type { editor } from 'monaco-editor';
 import { EditorControls } from '@components/EditorControls';
 import { ConsoleOutputContainer } from '@components/ConsoleOutputContainer';
 import { STORAGE_KEYS } from '@constants/storage';
 import { APP_CONSTANTS } from '@constants/app';
 import { useDebounce } from '@hooks/useDebounce';
-import { EditorBaseProps } from 'types/editor';
+import type { EditorBaseProps } from 'types/editor';
 import { overrideConsoleMethods } from '@utils/console/override';
 import { SHORTCUTS } from '@constants/shortcuts';
 import { useWindowResize } from '@hooks/useWindowResize';
 import { useSession } from '@contexts/SessionContext';
-import { ConsoleMessage } from 'types/console';
+import type { ConsoleMessage } from 'types/console';
 
 export const EditorBase = ({ language, handleCodeExecution }: EditorBaseProps) => {
   const [output, setOutput] = useState<ConsoleMessage[]>([]);

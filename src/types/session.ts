@@ -1,5 +1,5 @@
-import { Language } from '@constants/app';
-import { TUtcDate } from 'types/common';
+import type { Language } from '@constants/app';
+import type { TUtcDate } from 'types/common';
 
 export interface CodeSession {
   id: string;

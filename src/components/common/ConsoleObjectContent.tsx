@@ -1,5 +1,5 @@
 import React from 'react';
-import { ConsoleOutputProps } from 'types/console';
+import type { ConsoleOutputProps } from 'types/console';
 import { ConsoleOutput } from '@common/ConsoleOutput';
 import { ConsolePrimitive } from '@common/ConsolePrimitive';
 

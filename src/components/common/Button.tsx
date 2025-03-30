@@ -1,6 +1,6 @@
 import React from 'react';
 import { BUTTON_VARIANTS } from '@constants/button';
-import { ButtonProps } from 'types/common';
+import type { ButtonProps } from 'types/common';
 
 export const Button: React.FC<ButtonProps> = ({ 
   children, 

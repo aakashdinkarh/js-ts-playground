@@ -1,5 +1,5 @@
 import React from 'react';
-import { TabProps } from 'types/common';
+import type { TabProps } from 'types/common';
 
 export const Tab: React.FC<TabProps> = ({ label, isActive, onClick }) => {
   return (

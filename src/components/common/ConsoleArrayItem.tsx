@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ConsoleOutputProps } from 'types/console';
+import type { ConsoleOutputProps } from 'types/console';
 import { ConsoleOutput } from '@common/ConsoleOutput';
 import { copyToClipboard } from '@utils/clipboard';
 import { ConsoleObjectContent } from '@common/ConsoleObjectContent';

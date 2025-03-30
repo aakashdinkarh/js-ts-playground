@@ -1,5 +1,5 @@
-import { SetStateAction } from "react";
-import { CONSOLE_METHODS } from "@constants/console";
+import type { SetStateAction } from "react";
+import type { CONSOLE_METHODS } from "@constants/console";
 
 export type ConsoleMethodType =
   (typeof CONSOLE_METHODS)[keyof typeof CONSOLE_METHODS];

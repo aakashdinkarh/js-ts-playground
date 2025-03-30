@@ -1,6 +1,6 @@
 import { APP_CONSTANTS, LANGUAGES } from '@constants/app';
 import { useState, useEffect, useRef } from 'react';
-import { CodeSession } from 'types/session';
+import type { CodeSession } from 'types/session';
 import { saveCode, getCode, deleteCode } from '@utils/indexedDB';
 
 export const MAX_SESSIONS = 10;

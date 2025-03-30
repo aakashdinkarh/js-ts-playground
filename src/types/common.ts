@@ -1,4 +1,4 @@
-import { BUTTON_VARIANTS } from "@constants/button";
+import type { BUTTON_VARIANTS } from "@constants/button";
 
 export interface TabProps {
   label: string;

@@ -1,4 +1,4 @@
-import { ConsoleMethodType, SetOutputFunction, TimeData } from 'types/console';
+import type { ConsoleMethodType, SetOutputFunction, TimeData } from 'types/console';
 import { formatTimerDuration } from '@utils/console/formatters';
 import { CONSOLE_METHODS } from '@constants/console';
 

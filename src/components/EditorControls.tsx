@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Button } from '@common/Button';
-import { EditorControlsProps } from 'types/editorControl';
+import type { EditorControlsProps } from 'types/editorControl';
 import { SHORTCUTS } from '@constants/shortcuts';
 
 export const EditorControls: React.FC<EditorControlsProps> = ({

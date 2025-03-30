@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useCallback, useMemo } from 'react';
 import { useCodeSessions } from '@hooks/useCodeSessions';
-import { SessionContextType } from 'types/session';
-import { Language } from '@constants/app';
+import type { SessionContextType } from 'types/session';
+import type { Language } from '@constants/app';
 
 const SessionContext = createContext<SessionContextType | null>(null);
 

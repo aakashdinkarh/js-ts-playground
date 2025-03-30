@@ -1,6 +1,6 @@
-import { CodeSessionResponse } from "types/session";
+import type { CodeSessionResponse } from 'types/session';
 
-const CENTRAL_SERVER_BASE_URL = "https://central-server-app.vercel.app";
+const CENTRAL_SERVER_BASE_URL = 'https://central-server-app.vercel.app';
 
 const codeSessionApiUrl = `${CENTRAL_SERVER_BASE_URL}/api/code`;
 
@@ -11,7 +11,7 @@ const makeApiRequest = async (
   const response = await fetch(codeSessionApiUrl, {
     method,
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(body),
   });
@@ -21,7 +21,7 @@ const makeApiRequest = async (
 
 const handleApiError = (error: unknown) => {
   const errorMessage =
-    error instanceof Error ? error.message : "Something went wrong! Try again.";
+    error instanceof Error ? error.message : 'Something went wrong! Try again.';
 
   return {
     error: errorMessage,
@@ -31,7 +31,7 @@ const handleApiError = (error: unknown) => {
 
 const getCodeSessionData = async (sessionId: string) => {
   try {
-    const { data }: CodeSessionResponse = await makeApiRequest("GET", {
+    const { data }: CodeSessionResponse = await makeApiRequest('GET', {
       id: sessionId,
     });
 
@@ -46,7 +46,7 @@ const getCodeSessionData = async (sessionId: string) => {
 
 const createCodeSession = async (code: string, language: string) => {
   try {
-    const { data }: CodeSessionResponse = await makeApiRequest("POST", {
+    const { data }: CodeSessionResponse = await makeApiRequest('POST', {
       code,
       language,
     });
@@ -66,7 +66,7 @@ const updateCodeSession = async (
   language: string
 ) => {
   try {
-    const { data }: CodeSessionResponse = await makeApiRequest("PATCH", {
+    const { data }: CodeSessionResponse = await makeApiRequest('PATCH', {
       id: sessionId,
       code,
       language,
