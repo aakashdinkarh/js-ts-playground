@@ -4,3 +4,82 @@
 @import '@styles/console.css';
 @import '@styles/components/index.css';
 @import '@styles/sessionManager.css';
+
+.share-button-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.share-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #f6f8fa;
+  color: #24292e;
+  border: 1px solid rgba(27, 31, 36, 0.15);
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+  line-height: 20px;
+}
+
+.share-button:hover {
+  background-color: #f3f4f6;
+  border-color: rgba(27, 31, 36, 0.15);
+  text-decoration: none;
+}
+
+.share-button:active {
+  background-color: #ebecf0;
+  border-color: rgba(27, 31, 36, 0.15);
+}
+
+.share-button:disabled {
+  color: #959da5;
+  background-color: #f6f8fa;
+  border-color: rgba(27, 31, 36, 0.1);
+  cursor: not-allowed;
+}
+
+.share-button svg {
+  color: #57606a;
+}
+
+.share-button:hover svg {
+  color: #24292e;
+}
+
+.share-message {
+  font-size: 14px;
+  color: #57606a;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.github-link {
+  color: #0366d6;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.github-link:hover {
+  text-decoration: underline;
+}

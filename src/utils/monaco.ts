@@ -23,7 +23,7 @@ export const checkEditorErrors = async (
 
   // Try multiple times to get markers
   for (let attempt = 0; attempt < maxRetries; attempt++) {
-    const markers = window.monaco.editor.getModelMarkers({ resource: model.uri });
+    const markers = window.monaco.editor.getModelMarkers({ resource: model?.uri });
     
     // If we have any markers, or this is our last attempt, process them
     if (markers.length > 0 || attempt === maxRetries - 1) {

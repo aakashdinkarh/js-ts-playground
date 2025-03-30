@@ -1,3 +1,5 @@
+import type { editor } from 'monaco-editor';
+
 declare namespace Monaco {
   interface IMarker {
     severity: number;
@@ -31,8 +33,8 @@ declare global {
     monaco: {
       editor: Monaco.MonacoEditor;
     };
-    editor: monacoEditor.editor.IStandaloneCodeEditor;
+    editor: editor.IStandaloneCodeEditor;
   }
 }
 
-export {}; 
+export {};

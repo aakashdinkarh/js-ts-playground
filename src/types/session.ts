@@ -1,4 +1,5 @@
-import { Language } from "@constants/app";
+import { Language } from '@constants/app';
+import { TUtcDate } from 'types/common';
 
 export interface CodeSession {
   id: string;
@@ -9,6 +10,13 @@ export interface CodeSession {
   lastModified: number;
 }
 
+export interface CodeSessionResponse {
+  data: Pick<CodeSession, 'id' | 'code' | 'language'> & {
+    updatedAt: TUtcDate;
+    createdAt: TUtcDate;
+  };
+}
+
 export interface SessionContextType {
   sessions: CodeSession[];
   activeSession: CodeSession | null;
@@ -16,7 +24,10 @@ export interface SessionContextType {
   setActiveSessionId: (id: CodeSession['id']) => void;
   createSession: () => Promise<CodeSession>;
   deleteSession: (id: CodeSession['id']) => Promise<void>;
-  updateSession: (id: CodeSession['id'], updates: Partial<CodeSession>) => Promise<void>;
+  updateSession: (
+    id: CodeSession['id'],
+    updates: Partial<CodeSession>
+  ) => Promise<void>;
   updateCode: (code: string) => Promise<void>;
   updateLanguage: (language: Language) => Promise<void>;
 }
