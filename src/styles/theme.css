@@ -8,12 +8,18 @@
   --border-color: #ccc;
   --border-dark: #444;
   --border-darker: #333;
-  
+
   /* Tab Colors */
   --tab-bg: #f0f0f0;
   --tab-active-bg: #ccc;
   --tab-hover-bg: #f0f0f0;
-  
+
+  /* Share Button Colors */
+  --share-button-bg: #f6f8fa;
+  --share-button-bg-hover: #f3f4f6;
+  --share-button-border: #1b1f2426;
+  --share-button-text: #24292e;
+
   /* Console Colors */
   --console-warn: #ffbb33;
   --console-error: #ff4444;
@@ -22,21 +28,21 @@
   --console-time: #7cb342;
   --property-key: #9cdcfe;
   --property-value: #ce9178;
-  
+
   /* Spacing */
   --spacing-xs: 2px;
   --spacing-sm: 4px;
   --spacing-md: 8px;
   --spacing-lg: 12px;
   --spacing-xl: 16px;
-  
+
   /* Font */
   --font-mono: 'Consolas', 'Monaco', monospace;
   --font-size-sm: 12px;
   --font-size-md: 14px;
   --font-size-lg: 16px;
   --font-size-xl: 24px;
-  
+
   /* Border Radius */
   --border-radius: 4px;
 }

@@ -3,40 +3,24 @@ import { useState } from 'react';
 import { createCodeSession, updateCodeSession } from '@utils/centralServerApis';
 import { isIdUnique } from '@utils/isIdUniqueId';
 import { copyShareableLink } from '@utils/clipboard';
-
-const ShareIcon = () => (
-  <svg 
-    width="16" 
-    height="16" 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round"
-  >
-    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
-    <polyline points="16 6 12 2 8 6" />
-    <line x1="12" y1="2" x2="12" y2="15" />
-  </svg>
-);
+import { SHARE_BUTTON_TEXT } from '@constants/button';
+import { ShareIcon } from '@components/common/ShareIcon';
 
 export const ShareButton = () => {
-  const [copying, setCopying] = useState(false);
-  const [message, setMessage] = useState('');
+  const [shareBtnText, setShareBtnText] = useState<string>(SHARE_BUTTON_TEXT.SHARE);
 
   const afterShareCallback = () => {
     setTimeout(() => {
-      setCopying(false);
-      setMessage('');
+      setShareBtnText(SHARE_BUTTON_TEXT.SHARE);
     }, 2000);
   };
 
   const { activeSession } = useSession();
 
   const handleShare = async () => {
+    if (shareBtnText !== SHARE_BUTTON_TEXT.SHARE) return;
     if (!activeSession) return;
-    setCopying(true);
+    setShareBtnText(SHARE_BUTTON_TEXT.COPYING);
 
     const sessionId = activeSession.id;
     const isSessionIdUnique = isIdUnique(sessionId);
@@ -46,10 +30,10 @@ export const ShareButton = () => {
       const { error, id } = await updateCodeSession(sessionId, activeSession.code, activeSession.language);
 
       if (error != null) {
-        setMessage(error || "Something went wrong! Try again.");
+        setShareBtnText(error || SHARE_BUTTON_TEXT.ERROR);
       } else {
         const result = await copyShareableLink(id);
-        setMessage(result.message);
+        setShareBtnText(result.message);
       }
 
       afterShareCallback();
@@ -60,26 +44,23 @@ export const ShareButton = () => {
     const { error, id } = await createCodeSession(activeSession.code, activeSession.language);
 
     if (error != null) {
-      setMessage(error || "Something went wrong! Try again.");
+      setShareBtnText(error || SHARE_BUTTON_TEXT.ERROR);
     } else {
       const result = await copyShareableLink(id);
-      setMessage(result.message);
+      setShareBtnText(result.message);
     }
 
     afterShareCallback();
   };
 
   return (
-    <div className="share-button-container">
-      <button 
-        className="share-button"
-        onClick={handleShare}
-        disabled={copying}
-      >
-        <ShareIcon />
-        <span>{copying ? 'Copying...' : 'Share'}</span>
-      </button>
-      {message && <span className="share-message">{message}</span>}
-    </div>
+    <button 
+      className="share-button"
+      onClick={handleShare}
+      disabled={shareBtnText === SHARE_BUTTON_TEXT.COPYING}
+    >
+      {shareBtnText === SHARE_BUTTON_TEXT.SHARE && <ShareIcon />}
+      <span>{shareBtnText}</span>
+    </button>
   );
 };
