@@ -27,6 +27,13 @@ export const copyShareableLink = async (id: string): Promise<ShareResult> => {
     // Copy to clipboard
     const copied = await copyToClipboard(shareableUrl.toString());
 
+    if (!copied) {
+      console.log(
+        'Copy failed, please select the text and copy it manually:',
+        shareableUrl.toString()
+      );
+    }
+
     return {
       success: copied,
       message: copied ? SHARE_BUTTON_TEXT.SUCCESS : SHARE_BUTTON_TEXT.FAILED,
