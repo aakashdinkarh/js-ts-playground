@@ -10,11 +10,13 @@ import {
   saveSessionMetadata,
   getSessionsFromLocalDB,
   getUpdatedSessionsWithLocalDBCodes,
+  setLastActiveSession,
+  getLastActiveSession,
 } from '@utils/codeSessions';
 
 export const useCodeSessions = () => {
   const [sessions, setSessions] = useState<CodeSession[]>([]);
-  const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
+  const [activeSessionId, setActiveSessionId] = useState<string | null>(getLastActiveSession());
   const hasLoadedCodes = useRef(false);
   const paramSessionId = getSearchParams('id');
 
@@ -125,6 +127,11 @@ export const useCodeSessions = () => {
   useEffect(() => {
     saveSessionMetadata(sessions);
   }, [sessions]);
+
+  // Save last active session when active session changes
+  useEffect(() => {
+    activeSessionId && setLastActiveSession(activeSessionId);
+  }, [activeSessionId]);
 
   const createSession = async () => {
     if (sessions.length >= APP_CONSTANTS.MAX_SESSIONS) {
