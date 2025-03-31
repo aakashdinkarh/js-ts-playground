@@ -33,6 +33,8 @@ export const EditorBase = ({ language, handleCodeExecution }: EditorBaseProps) =
   const debouncedSetEditorContent = useDebounce((value: string, editor: editor.IStandaloneCodeEditor) => {
     if (autoRun) {
       handleRunCode(editor);
+    } else {
+      activeSession && updateCode(value);
     }
   }, APP_CONSTANTS.EDITOR_CONTENT_DEBOUNCE_DELAY);
 

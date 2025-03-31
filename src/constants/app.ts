@@ -8,6 +8,10 @@ export const APP_CONSTANTS = {
   DIMENSION_CHANGE_THRESHOLD: 50,
   MOBILE_BREAKPOINT: 768,
   CODE_SESSION_API_URL: 'https://central-server-app.vercel.app/api/code',
+  MAX_SESSIONS: 10,
+  ALERT_MESSAGE_FOR_NEW_SESSION_CREATION: 'Maximum session limit (10) reached!',
+  ALERT_MESSAGE_FOR_NEW_REMOTE_SESSION_CREATION:
+    'Maximum session limit (10) reached! Please close one of the existing sessions to load the remote session.',
 } as const;
 
 export const LANGUAGES = {
@@ -18,8 +22,7 @@ export const LANGUAGES = {
 export type Language = (typeof LANGUAGES)[keyof typeof LANGUAGES];
 
 export const CDN_URLS = {
-  TYPESCRIPT:
-    'https://cdnjs.cloudflare.com/ajax/libs/typescript/5.7.3/typescript.min.js',
+  TYPESCRIPT: 'https://cdnjs.cloudflare.com/ajax/libs/typescript/5.7.3/typescript.min.js',
 } as const;
 
 export type CDNUrl = (typeof CDN_URLS)[keyof typeof CDN_URLS];
