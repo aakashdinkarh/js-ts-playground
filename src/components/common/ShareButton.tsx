@@ -17,7 +17,10 @@ export const ShareButton = () => {
 
   const { activeSession } = useSession();
 
-  const handleShare = async () => {
+  const handleShare = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     if (shareBtnText !== SHARE_BUTTON_TEXT.SHARE) return;
     if (!activeSession) return;
     setShareBtnText(SHARE_BUTTON_TEXT.COPYING);
