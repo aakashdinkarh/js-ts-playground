@@ -1,5 +1,5 @@
 import { CONSOLE_METHOD_LIST } from '@constants/console';
-import { SetOutputFunction } from 'types/console';
+import type { SetOutputFunction } from 'types/console';
 import { createConsoleMethod, createTableMethod, createTimeMethod, createTimeEndMethod } from '@utils/console/methods';
 import { CONSOLE_METHODS } from '@constants/console';
 

@@ -1,0 +1,34 @@
+.share-button-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.share-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background-color: var(--share-button-bg);
+  color: var(--share-button-text);
+  border: 1px solid var(--share-button-border);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  transition: all 0.2s;
+  line-height: 20px;
+}
+
+.share-button:hover {
+  background-color: var(--share-button-bg-hover);
+  border-color: var(--share-button-border);
+  text-decoration: none;
+}
+
+.share-button:disabled {
+  color: var(--text-light);
+  background-color: var(--share-button-bg);
+  border-color: var(--share-button-border);
+  cursor: not-allowed;
+}

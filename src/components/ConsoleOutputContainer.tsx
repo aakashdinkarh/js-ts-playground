@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { ConsoleOutput } from '@common/ConsoleOutput';
-import { ConsoleOutputContainerProps } from 'types/console';
+import type { ConsoleOutputContainerProps } from 'types/console';
 import { Button } from '@common/Button';
 import { CONSOLE_METHODS } from '@constants/console';
 

@@ -1,4 +1,4 @@
-import { Language } from '@constants/app';
+import type { Language } from '@constants/app';
 
 export interface EditorBaseProps {
   language: Language;

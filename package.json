@@ -11,8 +11,8 @@
   },
   "devDependencies": {
     "@craco/craco": "7.1.0",
-    "@types/react": "19.0.8",
-    "@types/react-dom": "19.0.3",
+    "@types/react": "18.2.0",
+    "@types/react-dom": "18.2.0",
     "@typescript-eslint/eslint-plugin": "5.5.0",
     "@typescript-eslint/parser": "5.5.0",
     "eslint": "8.0.0",
@@ -26,7 +26,7 @@
     "build": "npm run type-check && craco build",
     "type-check": "tsc --noEmit",
     "type-check:watch": "tsc --noEmit --watch",
-    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint-fix": "eslint \"src/**/*.{ts,tsx,js,jsx}\" --fix",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
@@ -48,7 +48,13 @@
     "rules": {
       "no-eval": "off",
       "no-new-func": "off",
-      "@typescript-eslint/no-var-requires": "off"
+      "@typescript-eslint/no-var-requires": "off",
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        {
+          "prefer": "type-imports"
+        }
+      ]
     }
   },
   "browserslist": {

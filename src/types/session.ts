@@ -1,4 +1,5 @@
-import { Language } from "@constants/app";
+import type { Language } from '@constants/app';
+import type { TUtcDate } from 'types/common';
 
 export interface CodeSession {
   id: string;
@@ -7,6 +8,15 @@ export interface CodeSession {
   language: Language;
   createdAt: number;
   lastModified: number;
+}
+
+export type SessionMetadata = Omit<CodeSession, 'code'>;
+
+export interface CodeSessionResponse {
+  data: Pick<CodeSession, 'id' | 'code' | 'language'> & {
+    updatedAt: TUtcDate;
+    createdAt: TUtcDate;
+  };
 }
 
 export interface SessionContextType {

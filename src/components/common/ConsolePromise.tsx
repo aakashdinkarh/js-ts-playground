@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { ConsoleOutputProps } from 'types/console';
+import type { ConsoleOutputProps } from 'types/console';
 import { ConsoleOutput } from './ConsoleOutput';
-import { 
-  PROMISE_STATES, 
+import type { 
   PromiseState 
+} from '@constants/promise';
+import { 
+  PROMISE_STATES 
 } from '@constants/promise';
 
 interface ConsolePromiseProps {

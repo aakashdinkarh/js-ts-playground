@@ -1,4 +1,4 @@
-import { MAX_SESSIONS } from '../hooks/useCodeSessions';
+import { APP_CONSTANTS } from '@constants/app';
 import { useSession } from '@contexts/SessionContext';
 import { useState, useRef, useEffect } from 'react';
 import { MAX_SESSION_TITLE_LENGTH } from '@constants/app';
@@ -28,7 +28,7 @@ export function SessionManager() {
     try {
       createSession();
     } catch (error) {
-      alert('Maximum session limit (10) reached!');
+      alert(APP_CONSTANTS.ALERT_MESSAGE_FOR_NEW_SESSION_CREATION);
     }
   };
 
@@ -100,7 +100,7 @@ export function SessionManager() {
             )}
           </div>
         ))}
-        {sessions.length < MAX_SESSIONS && (
+        {sessions.length < APP_CONSTANTS.MAX_SESSIONS && (
           <button className="new-session-btn" onClick={handleNewSession} title="Create a new session">
             +
           </button>

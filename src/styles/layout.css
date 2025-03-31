@@ -49,9 +49,15 @@
 
 .github-link:hover {
   text-decoration: underline;
-} 
+}
 
 .header-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.header-actions {
   display: flex;
   align-items: center;
   gap: var(--spacing-md);

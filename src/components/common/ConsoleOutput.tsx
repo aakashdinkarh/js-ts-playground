@@ -1,6 +1,6 @@
 import React from 'react';
 import { CONSOLE_METHODS } from '@constants/console';
-import { ConsoleMethodTypeExcludingTable, ConsoleOutputProps } from 'types/console';
+import type { ConsoleMethodTypeExcludingTable, ConsoleOutputProps } from 'types/console';
 import { getTypeClass } from '@utils/console/get-type-class';
 import { ConsoleArrayItem } from '@common/ConsoleArrayItem';
 import { ConsoleTable } from '@common/ConsoleTable';

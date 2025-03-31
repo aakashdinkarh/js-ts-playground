@@ -1,124 +1,142 @@
-import { APP_CONSTANTS, LANGUAGES } from '@constants/app';
+import { APP_CONSTANTS } from '@constants/app';
 import { useState, useEffect, useRef } from 'react';
-import { CodeSession } from 'types/session';
-import { saveCode, getCode, deleteCode } from '@utils/indexedDB';
-
-export const MAX_SESSIONS = 10;
-const STORAGE_KEY = 'code-sessions';
+import type { CodeSession, SessionMetadata } from 'types/session';
+import { saveCode, deleteCode } from '@utils/indexedDB';
+import { getSearchParams, removeSearchParam } from '@utils/searchParams';
+import { getCodeSessionData } from '@utils/centralServerApis';
+import {
+  createNewSession,
+  loadSessionMetadata,
+  saveSessionMetadata,
+  getSessionsFromLocalDB,
+  getUpdatedSessionsWithLocalDBCodes,
+} from '@utils/codeSessions';
 
 export const useCodeSessions = () => {
   const [sessions, setSessions] = useState<CodeSession[]>([]);
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
   const hasLoadedCodes = useRef(false);
+  const paramSessionId = getSearchParams('id');
 
-  // Load session metadata from localStorage immediately
-  useEffect(() => {
-    try {
-      const storedSessions = localStorage.getItem(STORAGE_KEY);
-      if (!storedSessions) {
-        throw new Error('No sessions found');
-      }
+  const handleRemoteSession = async (metadata: SessionMetadata[]) => {
+    const existingSessionIndex = metadata.findIndex(s => s.id === paramSessionId);
 
-      const parsedMetadata = JSON.parse(storedSessions) as Omit<CodeSession, 'code'>[];
-      if (!Array.isArray(parsedMetadata)) {
-        throw new Error('Invalid sessions data');
-      }
-
-      if (parsedMetadata.length === 0) {
-        throw new Error('No sessions found');
-      }
-
-      // Set initial sessions with default code
-      const initialSessions = parsedMetadata.map(metadata => ({
-        ...metadata,
-        code: APP_CONSTANTS.DEFAULT_CODE,
-      }));
-      setSessions(initialSessions);
-      setActiveSessionId(initialSessions[0].id);
-    } catch (error) {
-      createSession();
+    if (existingSessionIndex !== -1) {
+      handleExistingRemoteSession(metadata, existingSessionIndex);
+      return metadata;
     }
-  }, []);
 
-  // Load actual code content from IndexedDB after metadata is loaded
-  useEffect(() => {
-    // Skip if no sessions or if we've already loaded codes
-    if (sessions.length === 0 || hasLoadedCodes.current) return;
+    if (metadata.length >= APP_CONSTANTS.MAX_SESSIONS) {
+      alert(APP_CONSTANTS.ALERT_MESSAGE_FOR_NEW_REMOTE_SESSION_CREATION);
+      return metadata;
+    }
 
-    const loadCodes = async () => {
-      hasLoadedCodes.current = true;
+    const newMetadata = await handleNewRemoteSession(metadata, paramSessionId as string);
+    return newMetadata;
+  };
 
-      try {
-        const results = await Promise.allSettled(
-          sessions.map(async (session) => {
-            const code = await getCode(session.id);
-            return {
-              sessionId: session.id,
-              code: code || APP_CONSTANTS.DEFAULT_CODE,
-            };
-          })
-        );
+  const handleExistingRemoteSession = async (
+    metadata: SessionMetadata[],
+    existingSessionIndex: number
+  ) => {
+    const existingSessionId = metadata[existingSessionIndex].id;
 
-        setSessions(prevSessions => {
-          const updatedSessions = [...prevSessions];
-          results.forEach((result, index) => {
-            if (result.status === 'fulfilled') {
-              const sessionIndex = updatedSessions.findIndex(
-                s => s.id === result.value.sessionId
-              );
-              if (sessionIndex !== -1) {
-                updatedSessions[sessionIndex] = {
-                  ...updatedSessions[sessionIndex],
-                  code: result.value.code,
-                };
-              }
-            } else {
-              console.warn(`Failed to load code for session '${sessions[index].title}':`, result.reason);
-            }
-          });
+    // Get session from remote server asynchronously and update the session
+    getCodeSessionData(existingSessionId).then(({ error, ...restCodeSessionData }) => {
+      if (restCodeSessionData.id === existingSessionId) {
+        setSessions(prev => {
+          const updatedSessions = [...prev];
+          updatedSessions[existingSessionIndex] = {
+            ...updatedSessions[existingSessionIndex],
+            ...restCodeSessionData,
+          };
           return updatedSessions;
         });
-      } catch {}
+        // save code to indexedDB and remove id param from url
+        saveCode(existingSessionId, restCodeSessionData.code).then(() => {
+          removeSearchParam('id');
+        });
+      } else {
+        setSessions(prev => {
+          const updatedSessions = [...prev];
+          updatedSessions[existingSessionIndex] = {
+            ...updatedSessions[existingSessionIndex],
+            code: error || restCodeSessionData.code,
+          };
+          return updatedSessions;
+        });
+      }
+    });
+  };
+
+  const handleNewRemoteSession = async (metadata: SessionMetadata[], remoteSessionId: string) => {
+    const newSession = createNewSession(remoteSessionId, `Session ${metadata.length + 1}`);
+
+    const newMetadata = [newSession, ...metadata];
+    handleExistingRemoteSession(newMetadata, 0);
+    return newMetadata;
+  };
+
+  // Initialize sessions and handle remote session if present
+  useEffect(() => {
+    const initializeSessions = async () => {
+      const metadata = loadSessionMetadata();
+
+      let initialSessionMetadata = metadata;
+
+      // Handle remote session if present
+      if (paramSessionId) {
+        initialSessionMetadata = await handleRemoteSession(metadata);
+      } else {
+        initialSessionMetadata =
+          metadata.length > 0 ? metadata : [createNewSession(Date.now().toString(), 'Session 1')];
+      }
+
+      // Until session is fetched asynchronously, show getting your code message
+      const initialSessions = initialSessionMetadata.map(m => ({
+        ...m,
+        code: APP_CONSTANTS.GETTING_CODE_MESSAGE,
+      }));
+      const activeSessionId =
+        initialSessions.find(s => s.id === paramSessionId)?.id || initialSessions[0].id;
+
+      setSessions(initialSessions);
+      setActiveSessionId(activeSessionId);
     };
 
-    
-    loadCodes();
-  }, [sessions.length]); // Include sessions as dependency but use ref to prevent reloads
+    initializeSessions();
+  }, []);
 
-  // Save session metadata to localStorage whenever they change
+  // Load code content for sessions
   useEffect(() => {
-    // Defer the saving to the next tick to avoid blocking the main thread
-    setTimeout(() => {
-      const metadata = sessions.map(({ id, title, language, createdAt, lastModified }) => ({
-        id,
-        title,
-        language,
-        createdAt,
-        lastModified,
-      }));
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(metadata));
-    }, 0);
+    if (sessions.length === 0 || hasLoadedCodes.current) return;
+
+    const sessionsToLoadFromLocalDB = sessions.filter(session => session.id !== paramSessionId);
+    const loadCodes = async () => {
+      hasLoadedCodes.current = true;
+      const results = await getSessionsFromLocalDB(sessionsToLoadFromLocalDB);
+      setSessions(getUpdatedSessionsWithLocalDBCodes(sessions, results, sessionsToLoadFromLocalDB));
+    };
+
+    loadCodes();
+  }, [sessions.length]);
+
+  // Save metadata when sessions change
+  useEffect(() => {
+    saveSessionMetadata(sessions);
   }, [sessions]);
 
   const createSession = async () => {
-    if (sessions.length >= MAX_SESSIONS) {
+    if (sessions.length >= APP_CONSTANTS.MAX_SESSIONS) {
       throw new Error('Maximum session limit reached');
     }
 
-    const newSession: CodeSession = {
-      id: Date.now().toString(),
-      title: `Session ${sessions.length + 1}`,
-      code: APP_CONSTANTS.DEFAULT_CODE,
-      language: LANGUAGES.JAVASCRIPT,
-      createdAt: Date.now(),
-      lastModified: Date.now(),
-    };
+    const newSession = createNewSession(Date.now().toString(), `Session ${sessions.length + 1}`);
 
-    // Save code to IndexedDB, No need to await
     saveCode(newSession.id, newSession.code);
-
     setSessions(prev => [newSession, ...prev]);
     setActiveSessionId(newSession.id);
+
     return newSession;
   };
 
@@ -128,11 +146,11 @@ export const useCodeSessions = () => {
       saveCode(id, updates.code);
     }
 
-    setSessions(prev => prev.map(session => 
-      session.id === id 
-        ? { ...session, ...updates, lastModified: Date.now() }
-        : session
-    ));
+    setSessions(prev =>
+      prev.map(session =>
+        session.id === id ? { ...session, ...updates, lastModified: Date.now() } : session
+      )
+    );
   };
 
   const deleteSession = async (id: string) => {

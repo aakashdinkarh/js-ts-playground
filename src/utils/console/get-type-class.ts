@@ -1,4 +1,4 @@
-import { ConsoleOutputProps } from 'types/console';
+import type { ConsoleOutputProps } from 'types/console';
 import { CONSOLE_METHODS } from '@constants/console';
 
 // Add CSS classes based on console type
