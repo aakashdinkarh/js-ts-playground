@@ -2,6 +2,7 @@ import { APP_CONSTANTS, LANGUAGES } from '@constants/app';
 import type { CodeSession, SessionMetadata } from 'types/session';
 import { getCode } from '@utils/indexedDB';
 import { PROMISE_STATES } from '@constants/promise';
+import { STORAGE_KEYS } from '@constants/storage';
 
 const STORAGE_KEY = 'code-sessions';
 
@@ -65,4 +66,18 @@ export const getUpdatedSessionsWithLocalDBCodes = (
     }
   });
   return updatedSessions;
+};
+
+export const getLastActiveSession = (): string | null => {
+  const lastActiveSession = localStorage.getItem(STORAGE_KEYS.LAST_ACTIVE_SESSION);
+
+  try {
+    return lastActiveSession ? JSON.parse(lastActiveSession) : null;
+  } catch {
+    return null;
+  }
+};
+
+export const setLastActiveSession = (sessionId: string) => {
+  localStorage.setItem(STORAGE_KEYS.LAST_ACTIVE_SESSION, JSON.stringify(sessionId));
 };
