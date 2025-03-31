@@ -99,11 +99,13 @@ export const useCodeSessions = () => {
         ...m,
         code: APP_CONSTANTS.GETTING_CODE_MESSAGE,
       }));
-      const activeSessionId =
-        initialSessions.find(s => s.id === paramSessionId)?.id || initialSessions[0].id;
+      const newActiveSessionId =
+        initialSessions.find(s => s.id === paramSessionId)?.id ||
+        initialSessions.find(s => s.id === activeSessionId)?.id ||
+        initialSessions[0].id;
 
       setSessions(initialSessions);
-      setActiveSessionId(activeSessionId);
+      setActiveSessionId(newActiveSessionId);
     };
 
     initializeSessions();
