@@ -58,6 +58,10 @@ export const ShareButton = () => {
       className="share-button"
       onClick={handleShare}
       disabled={shareBtnText === SHARE_BUTTON_TEXT.COPYING}
+      title={shareBtnText === SHARE_BUTTON_TEXT.SHARE ? 'Share Code' : 'Copying...'}
+      aria-label='Share Code'
+      aria-busy={shareBtnText === SHARE_BUTTON_TEXT.COPYING}
+      aria-disabled={shareBtnText === SHARE_BUTTON_TEXT.COPYING}
     >
       {shareBtnText === SHARE_BUTTON_TEXT.SHARE && <ShareIcon />}
       <span>{shareBtnText}</span>
